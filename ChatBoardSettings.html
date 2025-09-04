@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Chatbot Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES (from Greenify CSS - copied for self-containment) ===== */
+        :root {
+            --primary: #1a6f5c;
+            --primary-dark: #145a48;
+            --primary-light: #2d8a72;
+            --accent: #f39c12;
+            --accent-dark: #d35400;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --corner-radius: 16px;
+            --section-padding: 100px;
+            --card-radius: 16px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1.05rem;
+            text-align: center;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--light);
+            box-shadow: var(--shadow);
+            font-weight: 700;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline:hover {
+            background: rgba(26, 111, 92, 0.1);
+        }
+
+        /* ================== HEADER ================== */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 0.8rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1001;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+        }
+
+        .logo-img i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        /* Navigation Styles */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            position: relative;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            background: transparent;
+            border: 2px solid transparent;
+            font-size: 1.05rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(26, 111, 92, 0.08);
+            border-color: rgba(26, 111, 92, 0.2);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none; /* Hidden by default, shown in media queries */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 1002;
+        }
+
+        .mobile-menu-btn .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            margin: 5px auto;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Chatbot Settings Page Specific Styles */
+        .settings-section {
+            padding: 120px 0 80px; /* More top padding for content below fixed header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(180deg, var(--light) 0%, #E8F5E9 100%);
+            min-height: calc(100vh - 80px);
+        }
+
+        .settings-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .settings-header h1 {
+            font-size: 3rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .settings-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .settings-card {
+            background-color: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .settings-card h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-card h2 i {
+            color: var(--accent);
+        }
+
+        .setting-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--light-gray);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .setting-item label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .setting-item p.description {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--success);
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Select dropdowns */
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--dark);
+            background-color: var(--light);
+            appearance: none; /* Remove default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2395A5A6%22%20d%3D%22M5.293%2C7.293L2%2C3.999L1.293%2C4.707L5.293%2C8.707L9.293%2C4.707L8.586%2C3.999L5.293%2C7.293Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 10px;
+            cursor: pointer;
+            transition: border-color var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 111, 92, 0.2);
+        }
+
+        /* Input Range (Slider) */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover,
+        input[type="range"]::-moz-range-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .range-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        /* Button Group for persona */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-group .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-group .btn:hover {
+            background-color: var(--accent-dark);
+            color: white;
+            border-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-group .btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        /* Save & Reset Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .save-settings-btn, .reset-settings-btn {
+            padding: 15px 40px;
+            font-size: 1.15rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .save-settings-btn {
+            background: linear-gradient(135deg, var(--success), #219d53);
+            color: white;
+        }
+
+        .save-settings-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(135deg, #219d53, #1e8449);
+        }
+
+        .reset-settings-btn {
+            background: var(--light-gray);
+            color: var(--dark);
+            border: 2px solid var(--gray);
+        }
+
+        .reset-settings-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            background: var(--gray);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto; /* Pushes footer to the bottom */
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .nav-link span {
+                display: none;
+            }
+            .nav-link i {
+                font-size: 1.2rem;
+                margin-right: 0;
+            }
+            .nav-link {
+                padding: 0.8rem;
+                width: 45px;
+                height: 45px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-container {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 280px;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
+                transition: var(--transition);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                padding: 80px 1rem 2rem;
+                gap: 0.5rem;
+            }
+
+            .nav-container.active {
+                right: 0;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 1rem;
+                border-radius: var(--corner-radius);
+                justify-content: flex-start;
+            }
+
+            .nav-link span {
+                display: inline;
+            }
+
+            .settings-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .settings-section {
+                padding: 100px 0 50px;
+            }
+            .settings-card {
+                padding: 25px;
+                max-width: 95%;
+            }
+            .settings-card h2 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            .setting-item label {
+                font-size: 1rem;
+            }
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-group .btn {
+                width: 100%;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .save-settings-btn, .reset-settings-btn {
+                width: 100%;
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <div class="logo-img">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="logo-text">Green<span>ify</span></div>
+        </div>
+
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-container" id="navMenu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="carbon.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Carbon</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="education.html" class="nav-link">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Education</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="mobility.html" class="nav-link">
+                        <i class="fas fa-bicycle"></i>
+                        <span>Mobility</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="features.html" class="nav-link">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="chatbot.html" class="nav-link active">
+                        <i class="fas fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="settings-section container">
+            <div class="settings-header">
+                <h1><i class="fas fa-sliders-h"></i> Chatbot Settings</h1>
+                <p>Customize Greenify AI to better suit your preferences. Adjust how the bot communicates, its level of detail, and more.</p>
+            </div>
+
+            <div class="settings-card">
+                <h2><i class="fas fa-robot"></i> General Chatbot Behavior</h2>
+
+                <div class="setting-item">
+                    <label for="voiceOutput">Enable Voice Output (Text-to-Speech)</label>
+                    <p class="description">Have Greenify AI speak its responses aloud for an auditory experience.</p>
+                    <label class="switch">
+                        <input type="checkbox" id="voiceOutput">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label for="responseDetail">Bot Response Detail Level</label>
+                    <p class="description">Choose how detailed Greenify AI's responses should be.</p>
+                    <select id="responseDetail">
+                        <option value="concise">Concise (Quick answers)</option>
+                        <option value="standard" selected>Standard (Balanced information)</option>
+                        <option value="detailed">Detailed (In-depth explanations)</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label for="contextRetention">Conversation Context Retention</label>
+                    <p class="description">How much past conversation should the chatbot remember? (Affects relevance of follow-up questions).</p>
+                    <select id="contextRetention">
+                        <option value="short">Short (Last 3 messages)</option>
+                        <option value="medium" selected>Medium (Last 10 messages)</option>
+                        <option value="long">Long (Entire session)</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label for="personalizedLearning">Enable Personalized Learning</label>
+                    <p class="description">Allow Greenify AI to learn from your interactions to offer more personalized responses over time. (Data is anonymized).</p>
+                    <label class="switch">
+                        <input type="checkbox" id="personalizedLearning">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label for="ecoFactFrequency">Eco-Fact Frequency</label>
+                    <p class="description">How often should Greenify AI include interesting eco-facts in its responses? (0 = Never, 10 = Very Often)</p>
+                    <input type="range" id="ecoFactFrequency" min="0" max="10" value="5">
+                    <div class="range-value" id="ecoFactFrequencyValue">5</div>
+                </div>
+
+                <div class="setting-item">
+                    <label for="toneStyle">Chatbot Tone Style</label>
+                    <p class="description">Select the conversational tone of Greenify AI.</p>
+                    <div class="btn-group" id="toneStyle">
+                        <button type="button" class="btn" data-tone="friendly">Friendly</button>
+                        <button type="button" class="btn" data-tone="informative">Informative</button>
+                        <button type="button" class="btn" data-tone="direct">Direct</button>
+                        <button type="button" class="btn" data-tone="optimistic">Optimistic</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h2><i class="fas fa-brush"></i> Display & Interaction</h2>
+
+                <div class="setting-item">
+                    <label for="chatMessageFontSize">Chat Message Font Size</label>
+                    <p class="description">Adjust the font size of messages displayed within the chatbot interface.</p>
+                    <select id="chatMessageFontSize">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label for="showSuggestions">Show Quick Action Suggestions</label>
+                    <p class="description">Display buttons with common questions or next steps below the chat input.</p>
+                    <label class="switch">
+                        <input type="checkbox" id="showSuggestions">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label for="dailyEcoTips">Receive Daily Eco-Tips Notifications</label>
+                    <p class="description">Get a daily notification with a quick eco-friendly tip or fact.</p>
+                    <label class="switch">
+                        <input type="checkbox" id="dailyEcoTips">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label for="chatHistoryLimit">Chat History Display Limit</label>
+                    <p class="description">Limit the number of messages shown in the chat window to improve performance (older messages will be hidden).</p>
+                    <input type="number" id="chatHistoryLimit" min="10" max="100" value="50" style="width: 100px; padding: 8px; border: 1px solid var(--light-gray); border-radius: 5px;"> messages
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn reset-settings-btn" id="resetSettingsBtn">
+                    <i class="fas fa-undo"></i> Reset to Defaults
+                </button>
+                <button type="button" class="btn save-settings-btn" id="saveSettingsBtn">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Greenify. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', function() {
+            menuBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        const navLinks = document.querySelectorAll('#navMenu .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'var(--shadow)';
+            }
+        });
+
+        // --- Chatbot Settings Logic ---
+        const chatbotSettingsKey = 'greenifyChatbotSettings';
+
+        // Get elements
+        const voiceOutputToggle = document.getElementById('voiceOutput');
+        const responseDetailSelect = document.getElementById('responseDetail');
+        const contextRetentionSelect = document.getElementById('contextRetention'); // New
+        const personalizedLearningToggle = document.getElementById('personalizedLearning'); // New
+        const ecoFactFrequencySlider = document.getElementById('ecoFactFrequency');
+        const ecoFactFrequencyValue = document.getElementById('ecoFactFrequencyValue');
+        const toneStyleGroup = document.getElementById('toneStyle');
+        const chatMessageFontSizeSelect = document.getElementById('chatMessageFontSize'); // New
+        const showSuggestionsToggle = document.getElementById('showSuggestions');
+        const dailyEcoTipsToggle = document.getElementById('dailyEcoTips'); // New
+        const chatHistoryLimitInput = document.getElementById('chatHistoryLimit');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const resetSettingsBtn = document.getElementById('resetSettingsBtn'); // New
+
+        // Default settings
+        const defaultSettings = {
+            voiceOutputEnabled: false, // Default to off for accessibility consideration
+            responseDetail: 'standard',
+            contextRetention: 'medium',
+            personalizedLearning: true,
+            ecoFactFrequency: 5,
+            toneStyle: 'friendly',
+            chatMessageFontSize: 'medium',
+            showSuggestions: true,
+            dailyEcoTips: false, // Default to off to avoid spam
+            chatHistoryLimit: 50
+        };
+
+        // Function to load settings from localStorage
+        function loadChatbotSettings() {
+            const settings = JSON.parse(localStorage.getItem(chatbotSettingsKey)) || defaultSettings;
+
+            voiceOutputToggle.checked = settings.voiceOutputEnabled;
+            responseDetailSelect.value = settings.responseDetail;
+            contextRetentionSelect.value = settings.contextRetention; // Load new setting
+            personalizedLearningToggle.checked = settings.personalizedLearning; // Load new setting
+            ecoFactFrequencySlider.value = settings.ecoFactFrequency;
+            ecoFactFrequencyValue.textContent = ecoFactFrequencySlider.value; // Update display
+
+            // Set active tone button
+            const selectedTone = settings.toneStyle;
+            Array.from(toneStyleGroup.children).forEach(button => {
+                if (button.dataset.tone === selectedTone) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            chatMessageFontSizeSelect.value = settings.chatMessageFontSize; // Load new setting
+            showSuggestionsToggle.checked = settings.showSuggestions;
+            dailyEcoTipsToggle.checked = settings.dailyEcoTips; // Load new setting
+            chatHistoryLimitInput.value = settings.chatHistoryLimit;
+        }
+
+        // Function to save settings to localStorage
+        function saveChatbotSettings() {
+            const settings = {
+                voiceOutputEnabled: voiceOutputToggle.checked,
+                responseDetail: responseDetailSelect.value,
+                contextRetention: contextRetentionSelect.value, // Save new setting
+                personalizedLearning: personalizedLearningToggle.checked, // Save new setting
+                ecoFactFrequency: parseInt(ecoFactFrequencySlider.value, 10),
+                toneStyle: toneStyleGroup.querySelector('.btn.active')?.dataset.tone || defaultSettings.toneStyle,
+                chatMessageFontSize: chatMessageFontSizeSelect.value, // Save new setting
+                showSuggestions: showSuggestionsToggle.checked,
+                dailyEcoTips: dailyEcoTipsToggle.checked, // Save new setting
+                chatHistoryLimit: parseInt(chatHistoryLimitInput.value, 10)
+            };
+            localStorage.setItem(chatbotSettingsKey, JSON.stringify(settings));
+            alert('Chatbot settings saved successfully!');
+            // Optional: You might want to provide visual feedback instead of an alert
+            // e.g., a temporary "Saved!" message.
+        }
+
+        // Function to reset settings to default
+        function resetChatbotSettings() {
+            if (confirm('Are you sure you want to reset all chatbot settings to their default values?')) {
+                localStorage.removeItem(chatbotSettingsKey); // Clear saved settings
+                loadChatbotSettings(); // Load defaults
+                alert('Chatbot settings have been reset to defaults.');
+            }
+        }
+
+        // Event Listeners
+        ecoFactFrequencySlider.addEventListener('input', function() {
+            ecoFactFrequencyValue.textContent = this.value;
+        });
+
+        toneStyleGroup.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                Array.from(toneStyleGroup.children).forEach(button => {
+                    button.classList.remove('active');
+                });
+                e.target.classList.add('active');
+            }
+        });
+
+        saveSettingsBtn.addEventListener('click', saveChatbotSettings);
+        resetSettingsBtn.addEventListener('click', resetChatbotSettings); // Add event listener for reset button
+
+        // Load settings when the page loads
+        document.addEventListener('DOMContentLoaded', loadChatbotSettings);
+    </script>
+</body>
+</html>

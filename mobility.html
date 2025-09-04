@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Mobility Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a6f5c;
+            --primary-light: #2d8a72;
+            --primary-dark: #145a48;
+            --accent: #f39c12;
+            --accent-light: #f1c40f;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --warning: #e67e22;
+            --danger: #e74c3c;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e0e7e9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.3);
+        }
+        
+        .logo-img i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 25px 30px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .section-header p {
+            opacity: 0.9;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 111, 92, 0.2);
+        }
+        
+        .info-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 111, 92, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 111, 92, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(26, 111, 92, 0.1);
+        }
+        
+        /* Results Section */
+        #results {
+            padding: 30px;
+            display: none;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .results-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .route-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .route-option {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-left: 5px solid var(--gray);
+            cursor: pointer;
+        }
+        
+        .route-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .route-option.recommended {
+            border-left-color: var(--success);
+            background: linear-gradient(to right, rgba(39, 174, 96, 0.05), transparent);
+        }
+        
+        .route-option h4 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .route-option p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .route-option .emission-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--light-gray);
+        }
+        
+        .route-option.recommended .emission-value {
+            color: var(--success);
+        }
+        
+        .recommendations {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        
+        .recommendations h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendations ul {
+            list-style: none;
+        }
+        
+        .recommendations li {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+        
+        .recommendations li:hover {
+            background: white;
+            transform: translateX(5px);
+        }
+        
+        .recommendations li i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modal-tips {
+            margin-top: 20px;
+        }
+
+        .modal-tips h4 {
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .modal-tips ul {
+            list-style-type: none;
+        }
+
+        .modal-tips li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .modal-tips li:last-child {
+            border-bottom: none;
+        }
+
+        .modal-tips li i {
+            color: var(--primary);
+            margin-top: 4px;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Tips Section */
+        .tips-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tip-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tip-card h4 {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tip-card p {
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .route-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-img">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="logo-text">Green Mobility Planner</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Plan Your Green Journey</h1>
+            <p>Discover the most eco-friendly ways to reach your destination. Plan smarter, travel greener.</p>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <h2><i class="fas fa-chart-line"></i> Your Environmental Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="carbonSaved">0.0</div>
+                    <div class="stat-label">kg CO2 Saved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="tripsPlanned">0</div>
+                    <div class="stat-label">Trips Planned</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="greenTrips">0</div>
+                    <div class="stat-label">Green Trips</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="moneySaved">$0</div>
+                    <div class="stat-label">Money Saved</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="tips-section">
+            <h2><i class="fas fa-lightbulb"></i> Green Mobility Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4><i class="fas fa-bicycle"></i> Cycle More</h4>
+                    <p>Cycling just 10km daily can save over 1 ton of CO2 annually compared to driving.</p>
+                </div>
+                <div class="tip-card">
+                    <h4><i class="fas fa-bus"></i> Public Transport</h4>
+                    <p>Taking public transport reduces CO2 emissions by 45% compared to private vehicles.</p>
+                </div>
+                <div class="tip-card">
+                    <h4><i class="fas fa-car"></i> Carpooling</h4>
+                    <p>Sharing rides with just one other person can cut your transportation emissions in half.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <div class="section-header">
+                <h2>Plan Your Green Journey</h2>
+                <p>Enter your travel details to compare transportation options and their environmental impact.</p>
+            </div>
+
+            <div class="form-container">
+                <form id="mobilityPlannerForm">
+                    <div class="form-grid">
+                        <div>
+                            <div class="form-group">
+                                <label for="distance">Travel Distance (km):</label>
+                                <input type="number" id="distance" name="distance" value="10" min="0.1" step="0.1" required>
+                                <p class="info-text">Enter the approximate one-way distance of your journey.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="terrain">Terrain Type:</label>
+                                <select id="terrain" name="terrain">
+                                    <option value="flat">Flat</option>
+                                    <option value="hilly">Hilly</option>
+                                    <option value="urban">Urban (Stop-and-Go)</option>
+                                </select>
+                                <p class="info-text">This helps assess viability of walking/cycling.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passengers">Number of Passengers:</label>
+                                <input type="number" id="passengers" name="passengers" value="1" min="1" required>
+                                <p class="info-text">For shared modes like carpooling or public transport.</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label for="fitnessLevel">Your Fitness Level:</label>
+                                <select id="fitnessLevel" name="fitnessLevel">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                                <p class="info-text">Affects recommendations for walking/cycling.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="timeConstraint">Time Constraint:</label>
+                                <select id="timeConstraint" name="timeConstraint">
+                                    <option value="flexible">Flexible (OK with longer travel)</option>
+                                    <option value="moderate">Moderate (Some flexibility)</option>
+                                    <option value="strict">Strict (Need to be fast)</option>
+                                </select>
+                                <p class="info-text">How much time can you allocate for travel?</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="preferredMode">Preferred Mode of Transport:</label>
+                                <select id="preferredMode" name="preferredMode">
+                                    <option value="any">Any / Flexible</option>
+                                    <option value="active">Active (Walk/Cycle)</option>
+                                    <option value="public">Public Transport</option>
+                                    <option value="private">Private Vehicle</option>
+                                </select>
+                                <p class="info-text">Choose your desired general mode of travel.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-bicycle"></i> Plan My Green Route</button>
+                        <button type="reset" class="btn btn-outline"><i class="fas fa-sync-alt"></i> Reset Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="results">
+                <div class="results-header">
+                    <h2>Green Travel Options for Your Journey</h2>
+                    <p>Based on your input, here are your most sustainable mobility options:</p>
+                </div>
+                
+                <div class="route-comparison" id="routeComparison">
+                    <!-- Results will be populated here by JavaScript -->
+                </div>
+                
+                <div class="recommendations">
+                    <h3><i class="fas fa-lightbulb"></i> Green Travel Tips</h3>
+                    <ul id="generalTips">
+                        <li><i class="fas fa-leaf"></i> Consider combining trips to reduce overall travel distance</li>
+                        <li><i class="fas fa-leaf"></i> Off-peak travel often means less congestion and lower emissions</li>
+                        <li><i class="fas fa-leaf"></i> Regular vehicle maintenance improves fuel efficiency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for displaying tips -->
+    <div class="modal" id="tipsModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-header">
+                <i class="" id="modalIcon"></i>
+                <h3 id="modalTitle"></h3>
+            </div>
+            <div class="modal-tips">
+                <h4>Eco-Tips for <span id="modeName"></span>:</h4>
+                <ul id="modalTipsList">
+                    <!-- Tips will be populated here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User stats
+        let userStats = {
+            carbonSaved: 0,
+            tripsPlanned: 0,
+            greenTrips: 0,
+            moneySaved: 0
+        };
+
+        // Update user stats display
+        function updateStatsDisplay() {
+            document.getElementById('carbonSaved').textContent = userStats.carbonSaved.toFixed(1);
+            document.getElementById('tripsPlanned').textContent = userStats.tripsPlanned;
+            document.getElementById('greenTrips').textContent = userStats.greenTrips;
+            document.getElementById('moneySaved').textContent = '$' + userStats.moneySaved.toFixed(2);
+        }
+
+        // Transport mode tips
+        const transportTips = {
+            walk: [
+                "Walking not only produces zero emissions but also improves cardiovascular health.",
+                "Consider walking for distances under 2km - it's often faster than driving in urban areas.",
+                "Use a pedometer or step-tracking app to motivate yourself to walk more daily."
+            ],
+            cycle: [
+                "Cycling is 3x more energy-efficient than walking and 50x more efficient than driving.",
+                "Regular cycling can reduce your risk of heart disease and stroke by 50%.",
+                "Many cities now offer bike-sharing programs for convenient short-term rentals."
+            ],
+            publicBus: [
+                "A full bus can take 40 cars off the road, significantly reducing traffic congestion.",
+                "Using public transport saves an average of 4,800 kg of CO2 per person annually.",
+                "Many transit apps now provide real-time bus locations to minimize waiting time."
+            ],
+            publicTrain: [
+                "Trains are 3x more efficient than cars for passenger transport on a per-km basis.",
+                "Electric trains produce 60-80% less emissions than diesel trains.",
+                "Train travel is statistically the safest mode of transportation."
+            ],
+            carElectric: [
+                "Charge your EV during off-peak hours to reduce strain on the electrical grid.",
+                "Electric vehicles have fewer moving parts, resulting in lower maintenance costs.",
+                "Solar panels at home can provide clean energy for your EV charging needs."
+            ],
+            carPetrol: [
+                "Properly inflated tires can improve fuel efficiency by up to 3%.",
+                "Avoid idling - turning off your engine saves more fuel than restarting it.",
+                "Regular maintenance can improve fuel efficiency by an average of 4%."
+            ],
+            carHybrid: [
+                "Hybrids are most efficient in stop-and-go city traffic where regenerative braking is frequent.",
+                "Using eco-mode can optimize performance for maximum fuel efficiency.",
+                "Hybrid batteries typically last 10-15 years and often come with lengthy warranties."
+            ],
+            motorcycle: [
+                "Motorcycles consume 2-3x less fuel than the average car for similar journeys.",
+                "Lane filtering (where legal) can reduce traffic congestion for all road users.",
+                "Modern electric motorcycles produce zero emissions and have very low operating costs."
+            ]
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('tipsModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalIcon = document.getElementById('modalIcon');
+        const modeName = document.getElementById('modeName');
+        const modalTipsList = document.getElementById('modalTipsList');
+
+        // Function to show modal with tips
+        function showTips(mode, title, iconClass) {
+            modalTitle.textContent = title;
+            modalIcon.className = iconClass;
+            modeName.textContent = title;
+            
+            // Clear previous tips
+            modalTipsList.innerHTML = '';
+            
+            // Add tips for this mode
+            transportTips[mode].forEach(tip => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-leaf"></i> <span>${tip}</span>`;
+                modalTipsList.appendChild(li);
+            });
+            
+            // Show modal
+            modal.style.display = 'flex';
+        }
+
+        // Close modal when clicking X
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Save trip to history
+        function saveToHistory(distance, option) {
+            userStats.tripsPlanned++;
+            
+            // Calculate carbon savings compared to average petrol car
+            const petrolEmissions = 0.192 * distance;
+            const carbonSaved = petrolEmissions - option.emissions;
+            if (carbonSaved > 0) {
+                userStats.carbonSaved += carbonSaved;
+                userStats.greenTrips++;
+            }
+            
+            // Calculate money saved (assuming $0.15/km for car ownership cost)
+            const carCost = distance * 0.15;
+            let optionCost = 0;
+            
+            // Very simplified cost estimates
+            if (option.type === 'walk' || option.type === 'cycle') {
+                optionCost = 0;
+            } else if (option.type.includes('public')) {
+                optionCost = distance * 0.05;
+            } else if (option.type.includes('car')) {
+                optionCost = carCost;
+            }
+            
+            const moneySaved = carCost - optionCost;
+            if (moneySaved > 0) {
+                userStats.moneySaved += moneySaved;
+            }
+            
+            updateStatsDisplay();
+        }
+
+        document.getElementById('mobilityPlannerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get input values
+            const distance = parseFloat(document.getElementById('distance').value);
+            const terrain = document.getElementById('terrain').value;
+            const passengers = parseInt(document.getElementById('passengers').value);
+            const fitnessLevel = document.getElementById('fitnessLevel').value;
+            const timeConstraint = document.getElementById('timeConstraint').value;
+            const preferredMode = document.getElementById('preferredMode').value;
+
+            // Emission factors (kg CO2e per km per passenger - simplified)
+            const EMISSION_FACTORS = {
+                walk: 0,
+                cycle: 0,
+                publicBus: 0.10,
+                publicTrain: 0.04,
+                carPetrol: 0.192,
+                carElectric: 0.02,
+                carHybrid: 0.12,
+                motorcycle: 0.11
+            };
+
+            // Average speeds (km/h)
+            const SPEEDS = {
+                walk: 5,
+                cycle: 15,
+                publicBus: 20,
+                publicTrain: 40,
+                car: 40,
+                motorcycle: 40
+            };
+
+            // Define all possible route options
+            const allRouteOptions = [
+                {
+                    mode: 'Walk',
+                    type: 'walk',
+                    icon: 'fas fa-walking',
+                    calculate: () => {
+                        let walkTime = distance / SPEEDS.walk;
+                        let walkTimeInMinutes = walkTime * 60;
+                        let viable = true;
+                        
+                        if (distance > 5 && fitnessLevel === 'low') viable = false;
+                        if (distance > 10 && (fitnessLevel === 'low' || fitnessLevel === 'medium')) viable = false;
+                        if (timeConstraint === 'strict' && walkTime > 0.5) viable = false;
+                        
+                        let notes = '';
+                        if (walkTimeInMinutes <= 15) {
+                            notes = `Perfect for a quick, healthy commute! Enjoy the fresh air.`;
+                        } else if (walkTimeInMinutes <= 45) {
+                            notes = `A great way to get your steps in and explore. Consider comfortable shoes!`;
+                        } else {
+                            notes = `A longer walk. Ideal for leisure or if you have ample time and good fitness.`;
+                        }
+                        
+                        return viable ? {
+                            emissions: 0,
+                            time: `${walkTimeInMinutes.toFixed(0)} mins`,
+                            notes: notes
+                        } : null;
+                    }
+                },
+                {
+                    mode: 'Cycle',
+                    type: 'cycle',
+                    icon: 'fas fa-bicycle',
+                    calculate: () => {
+                        let cycleTime = distance / SPEEDS.cycle;
+                        let viable = true;
+                        
+                        if (distance > 10 && fitnessLevel === 'low') viable = false;
+                        if (distance > 25 && (fitnessLevel === 'low' || fitnessLevel === 'medium')) viable = false;
+                        if (terrain === 'hilly' && fitnessLevel === 'low') viable = false;
+                        if (timeConstraint === 'strict' && cycleTime > 0.5) viable = false;
+
+                        let notes = 'Zero emissions, healthy, and often faster than cars in urban areas.';
+                        if (terrain === 'hilly' && fitnessLevel === 'medium') notes += ' Hills might be a challenge, but rewarding!';
+                        
+                        return viable ? {
+                            emissions: 0,
+                            time: `${(cycleTime * 60).toFixed(0)} mins`,
+                            notes: notes
+                        } : null;
+                    }
+                },
+                {
+                    mode: 'Public Bus',
+                    type: 'publicBus',
+                    icon: 'fas fa-bus',
+                    calculate: () => {
+                        let busEmissions = EMISSION_FACTORS.publicBus * distance * passengers;
+                        let busTime = distance / SPEEDS.publicBus;
+                        let viable = true;
+                        
+                        if (distance < 2 && timeConstraint === 'flexible') viable = false;
+                        if (timeConstraint === 'strict' && busTime > 1.5) viable = false;
+
+                        let notes = `Lower emissions per person than cars, especially with multiple passengers.`;
+                        if (terrain === 'urban') notes += ' Expect potential delays due to traffic.';
+                        
+                        return viable ? {
+                            emissions: busEmissions,
+                            time: `${(busTime * 60).toFixed(0)} mins (+ waiting)`,
+                            notes: notes
+                        } : null;
+                    }
+                },
+                {
+                    mode: 'Train/Tram',
+                    type: 'publicTrain',
+                    icon: 'fas fa-train',
+                    calculate: () => {
+                        let trainEmissions = EMISSION_FACTORS.publicTrain * distance * passengers;
+                        let trainTime = distance / SPEEDS.publicTrain;
+                        let viable = true;
+                        
+                        if (distance < 5) viable = false;
+                        if (timeConstraint === 'strict' && trainTime > 1.0) viable = false;
+
+                        let notes = `One of the most efficient modes for longer commutes.`;
+                        if (distance >= 20) notes += ' Excellent for longer, inter-city travel.';
+                        
+                        return viable ? {
+                            emissions: trainEmissions,
+                            time: `${(trainTime * 60).toFixed(0)} mins (+ waiting)`,
+                            notes: notes
+                        } : null;
+                    }
+                },
+                {
+                    mode: 'Electric Car',
+                    type: 'carElectric',
+                    icon: 'fas fa-car',
+                    calculate: () => {
+                        let carElectricEmissions = (EMISSION_FACTORS.carElectric * distance) / passengers;
+                        let carTime = distance / SPEEDS.car;
+                        
+                        let notes = 'Zero tailpipe emissions, overall impact depends on electricity source. Charge with renewable energy if possible!';
+                        
+                        return {
+                            emissions: carElectricEmissions,
+                            time: `${(carTime * 60).toFixed(0)} mins`,
+                            notes: notes
+                        };
+                    }
+                },
+                {
+                    mode: 'Petrol Car',
+                    type: 'carPetrol',
+                    icon: 'fas fa-car',
+                    calculate: () => {
+                        let carPetrolEmissions = (EMISSION_FACTORS.carPetrol * distance) / passengers;
+                        let carTime = distance / SPEEDS.car;
+                        
+                        let notes = 'Higher emissions, especially with fewer passengers.';
+                        if (passengers > 1) notes += ' Carpooling helps reduce per-person impact.';
+                        else notes += ' Consider carpooling or public transport for greener options.';
+                        
+                        return {
+                            emissions: carPetrolEmissions,
+                            time: `${(carTime * 60).toFixed(0)} mins`,
+                            notes: notes
+                        };
+                    }
+                },
+                {
+                    mode: 'Hybrid Car',
+                    type: 'carHybrid',
+                    icon: 'fas fa-car',
+                    calculate: () => {
+                        let carHybridEmissions = (EMISSION_FACTORS.carHybrid * distance) / passengers;
+                        let carTime = distance / SPEEDS.car;
+                        
+                        let notes = 'Better than petrol, but still uses fossil fuels. Ideal for mixed driving.';
+                        if (terrain === 'urban') notes += ' Hybrids perform well in stop-and-go traffic.';
+                        
+                        return {
+                            emissions: carHybridEmissions,
+                            time: `${(carTime * 60).toFixed(0)} mins`,
+                            notes: notes
+                        };
+                    }
+                },
+                {
+                    mode: 'Motorcycle',
+                    type: 'motorcycle',
+                    icon: 'fas fa-motorcycle',
+                    calculate: () => {
+                        if (passengers > 2) return null;
+                        let motorcycleEmissions = (EMISSION_FACTORS.motorcycle * distance) / passengers;
+                        let motorcycleTime = distance / SPEEDS.motorcycle;
+                        
+                        let notes = 'Generally lower emissions than a car, but higher per-person than public transport.';
+                        if (passengers === 1) notes += ' Most efficient for solo travel among private vehicles.';
+                        
+                        return {
+                            emissions: motorcycleEmissions,
+                            time: `${(motorcycleTime * 60).toFixed(0)} mins`,
+                            notes: notes
+                        };
+                    }
+                }
+            ];
+
+            let potentialRouteOptions = [];
+
+            // Calculate options
+            allRouteOptions.forEach(option => {
+                const result = option.calculate();
+                if (result) {
+                    potentialRouteOptions.push({
+                        mode: option.mode,
+                        type: option.type,
+                        icon: option.icon,
+                        emissions: result.emissions,
+                        time: result.time,
+                        distance: `${distance.toFixed(1)} km`,
+                        notes: result.notes
+                    });
+                }
+            });
+
+            // Sort options by emissions (lowest first)
+            potentialRouteOptions.sort((a, b) => a.emissions - b.emissions);
+
+            // Display Results
+            const routeComparisonDiv = document.getElementById('routeComparison');
+            routeComparisonDiv.innerHTML = '';
+
+            if (potentialRouteOptions.length === 0) {
+                routeComparisonDiv.innerHTML = '<p class="error-message"><i class="fas fa-exclamation-circle"></i> No suitable options found based on your preferences. Try adjusting your selections!</p>';
+            } else {
+                potentialRouteOptions.forEach((option, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.classList.add('route-option');
+                    
+                    // Mark first two options as recommended
+                    if (index < 2) {
+                        optionDiv.classList.add('recommended');
+                    }
+
+                    optionDiv.innerHTML = `
+                        <h4><i class="${option.icon}"></i> ${option.mode}</h4>
+                        <p><strong>Travel Time:</strong> ${option.time}</p>
+                        <p><strong>Distance:</strong> ${option.distance}</p>
+                        <p><strong>Notes:</strong> ${option.notes}</p>
+                        <p class="emission-value"><strong>Est. CO2e:</strong> ${option.emissions.toFixed(2)} kg</p>
+                    `;
+                    
+                    // Add click event to show tips
+                    optionDiv.addEventListener('click', () => {
+                        showTips(option.type, option.mode, option.icon);
+                    });
+                    
+                    routeComparisonDiv.appendChild(optionDiv);
+                    
+                    // Save the first recommended option to history
+                    if (index === 0) {
+                        saveToHistory(distance, option);
+                    }
+                });
+            }
+
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

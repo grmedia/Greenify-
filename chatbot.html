@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Eco Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --primary: #1a6f5c;
+            --primary-dark: #145a48;
+            --primary-light: #2d8a72;
+            --accent: #f39c12;
+            --accent-dark: #d35400;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --corner-radius: 16px;
+            --section-padding: 100px;
+            --card-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+        }
+
+        .logo-img i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color var(--transition);
+        }
+
+        .btn-icon:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            height: calc(100vh - 80px);
+            position: relative;
+        }
+
+        /* ===== RECENT CHATS SIDEBAR ===== */
+        .recent-chats-sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            z-index: 1000;
+        }
+
+        .recent-chats-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .recent-chats-header .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .recent-chats-header h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .recent-chats-header .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .recent-chats-header .btn-icon-sm {
+            font-size: 1.1rem;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .recent-chats-header .btn-icon-sm:hover {
+            color: var(--primary);
+        }
+
+        .recent-chats-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .recent-chat-item {
+            padding: 12px 15px;
+            border-radius: var(--corner-radius);
+            margin-bottom: 10px;
+            background: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .recent-chat-item:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .recent-chat-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .recent-chat-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-chat-preview {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ===== CHATBOT CONTAINER ===== */
+        .chatbot-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            height: 100%;
+        }
+
+        /* ===== CHAT HEADER ===== */
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .online-status {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .chat-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-controls button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: rgba(26, 111, 92, 0.1);
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            border-bottom: 1px solid rgba(26, 111, 92, 0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ===== CHAT MESSAGES ===== */
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--light);
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            display: flex;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+            margin-right: auto;
+        }
+        
+        .message-container {
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            padding: 15px;
+        }
+        
+        .message-container.bot {
+            background-color: var(--light-gray);
+        }
+        
+        .message-container.user {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 100%;
+        }
+
+        .message.user .message-bubble {
+            background-color: var(--primary-light);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot .message-bubble {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border-bottom-left-radius: 5px;
+        }
+
+        .info-box {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid var(--accent);
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .bot-response-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .bot-response-list li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== TYPING INDICATOR ===== */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+            margin-right: auto;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: var(--gray);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* ===== CHAT SUGGESTIONS ===== */
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px 20px;
+            border-top: 1px solid var(--light-gray);
+            background-color: white;
+            justify-content: center;
+        }
+
+        .chat-suggestions button {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .chat-suggestions button:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ===== CHAT INPUT ===== */
+        .chat-input {
+            border-top: 1px solid var(--light-gray);
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            background-color: white;
+            align-items: center;
+            position: relative;
+        }
+
+        .chat-input input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 15px;
+            padding-right: 60px;
+            border: 1px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        .chat-input input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+
+        .chat-input button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .voice-recorder-btn {
+            background-color: transparent;
+            color: var(--gray);
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: none;
+            z-index: 10;
+        }
+
+        .voice-recorder-btn:hover {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: none;
+        }
+
+        .voice-recorder-btn.recording {
+            color: var(--danger);
+            animation: pulse-record 1.5s infinite;
+        }
+
+        @keyframes pulse-record {
+            0% { transform: translateY(-50%) scale(0.95); opacity: 1; }
+            70% { transform: translateY(-50%) scale(1.1); opacity: 0.7; }
+            100% { transform: translateY(-50%) scale(0.95); opacity: 1; }
+        }
+
+        /* ===== BOTTOM CONTROLS ===== */
+        .bottom-controls {
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .connection-status {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .connection-status.online {
+            background: var(--success);
+            color: white;
+        }
+
+        .connection-status.offline {
+            background: var(--gray);
+            color: white;
+        }
+
+        .apn-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .apn-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-buttons button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .action-buttons button.clear-btn {
+            background-color: var(--danger);
+        }
+
+        .action-buttons button.clear-btn:hover {
+            background-color: var(--accent-dark);
+        }
+
+        /* ===== SETTINGS MENU ===== */
+        .settings-menu {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            background: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow-hover);
+            padding: 10px 0;
+            width: 250px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+
+        .settings-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .settings-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .settings-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background-color 0.3s;
+        }
+
+        .settings-menu li a:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+
+        .settings-menu li a i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu .separator {
+            border-top: 1px solid var(--light-gray);
+            margin: 5px 0;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 992px) {
+            .recent-chats-sidebar {
+                position: absolute;
+                left: -300px; /* Hide off-screen */
+                top: 0;
+                bottom: 0;
+                height: 100%;
+                z-index: 1000;
+                box-shadow: var(--shadow-hover);
+            }
+            
+            .recent-chats-sidebar.active {
+                left: 0; /* Slide into view */
+                transform: translateX(0);
+            }
+
+            .backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+                transition: opacity 0.4s ease;
+                opacity: 0;
+            }
+
+            .backdrop.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .header-controls #toggle-recent-chats {
+                display: inline-block;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .header-controls #toggle-recent-chats, .recent-chats-header #close-recent-chats {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .chat-messages {
+                padding: 15px;
+            }
+            
+            .message-bubble {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .chat-input {
+                padding: 10px 15px;
+            }
+            
+            .chat-input input[type="text"] {
+                padding: 10px;
+                padding-right: 50px;
+            }
+            
+            .chat-input button {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .voice-recorder-btn {
+                right: 60px;
+            }
+            
+            .chat-suggestions {
+                padding: 10px 15px;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 5px;
+                align-items: center;
+            }
+            
+            .chat-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .chat-controls {
+                align-self: flex-end;
+            }
+            
+            .bottom-controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .apn-switch {
+                justify-content: center;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .header-controls {
+                gap: 10px;
+            }
+            
+            .chat-header {
+                font-size: 1rem;
+            }
+            
+            .chat-suggestions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .chat-suggestions button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-img">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="logo-text">Green<span>ify</span></div>
+        </div>
+        
+        <div class="header-controls">
+            <button id="toggle-recent-chats" class="btn-icon">
+                <i class="fas fa-comments"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="recent-chats-sidebar">
+            <div class="recent-chats-header">
+                <div class="header-top">
+                    <h2>Recent Chats</h2>
+                    <div class="header-actions">
+                        <button id="clear-recent-chats-btn" class="btn-icon-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button id="close-recent-chats" class="btn-icon-sm">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="recent-chats-list" id="recent-chats-list">
+                </div>
+        </div>
+
+        <div class="chatbot-container">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <i class="fas fa-robot"></i> Greenify AI Assistant
+                    <span class="online-status">
+                        <span class="online-dot"></span> Online
+                    </span>
+                </div>
+                <div class="chat-controls">
+                    <button id="new-chat-btn">
+                        <i class="fas fa-plus-circle"></i> New Chat
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <i class="fas fa-leaf"></i>
+                    <span id="eco-points">0</span> Eco Points
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-recycle"></i>
+                    <span id="eco-tips">0</span> Tips Learned
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-cloud"></i>
+                    <span id="carbon-saved">0</span> kg CO2 Saved
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot">
+                    <div class="message-bubble">
+                        <strong>Hello! I'm your Greenify AI Assistant.</strong> 🌱
+                        <p>How can I help you live greener today? You can ask me about sustainability tips, carbon reduction strategies, recycling info, or our Greenify features!</p>
+                        <div class="info-box">
+                            <i class="fas fa-lightbulb"></i> Try asking: "How can I reduce my plastic waste?" or "What are some energy-saving tips?"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-suggestions" id="chat-suggestions">
+                <button data-query="What are Greenify's key features?">Our Features</button>
+                <button data-query="Give me a sustainability tip">Eco-Tip</button>
+                <button data-query="How can I reduce my carbon footprint?">Carbon Reduction</button>
+                <button data-query="Tell me about recycling electronics">E-Waste Recycling</button>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ask about sustainability..." autocomplete="off">
+                <button id="voice-recorder-btn" class="voice-recorder-btn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+
+            <div class="bottom-controls">
+                <div class="connection-status offline" id="connection-status">
+                    <i class="fas fa-wifi"></i> Offline Mode
+                </div>
+                
+                <div class="apn-switch">
+                    <span class="apn-label">Local</span>
+                    <label class="switch">
+                        <input type="checkbox" id="apn-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="apn-label">APN</span>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="clear-chat" class="clear-btn">
+                        <i class="fas fa-trash-alt"></i> Clear Chat
+                    </button>
+                    <button id="settings-btn">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="backdrop" class="backdrop"></div>
+
+    <div id="settings-menu" class="settings-menu">
+        <ul>
+            <li><a href="#" id="toggle-voice-output"><i class="fas fa-volume-up"></i> Toggle Voice Output</a></li>
+            <li><a href="#" id="chatbot-settings"><i class="fas fa-robot"></i> Chatbot Settings</a></li>
+            <li><a href="#" id="change-language"><i class="fas fa-globe"></i> Change Language</a></li>
+            <li><a href="#" id="reset-stats"><i class="fas fa-chart-line"></i> Reset Stats</a></li>
+            <li class="separator"></li>
+            <li><a href="#" id="export-chat-data"><i class="fas fa-download"></i> Export Chat Data</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // --- Enhanced Chatbot Functionality ---
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatSuggestions = document.getElementById('chat-suggestions');
+        const clearChatBtn = document.getElementById('clear-chat');
+        const newChatBtn = document.getElementById('new-chat-btn');
+        const ecoPointsSpan = document.getElementById('eco-points');
+        const ecoinTipsSpan = document.getElementById('eco-tips');
+        const carbonSavedSpan = document.getElementById('carbon-saved');
+        const voiceRecorderBtn = document.getElementById('voice-recorder-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsMenu = document.getElementById('settings-menu');
+        const toggleVoiceOutputBtn = document.getElementById('toggle-voice-output');
+        const resetStatsBtn = document.getElementById('reset-stats');
+        const changeLanguageBtn = document.getElementById('change-language');
+        const exportChatDataBtn = document.getElementById('export-chat-data');
+        const connectionStatus = document.getElementById('connection-status');
+        const apnToggle = document.getElementById('apn-toggle');
+        const recentChatsSidebar = document.querySelector('.recent-chats-sidebar');
+        const recentChatsList = document.getElementById('recent-chats-list');
+        const toggleRecentChatsBtn = document.getElementById('toggle-recent-chats');
+        const closeRecentChatsBtn = document.getElementById('close-recent-chats');
+        const backdrop = document.getElementById('backdrop');
+        const clearRecentChatsBtn = document.getElementById('clear-recent-chats-btn');
+        const chatbotSettingsBtn = document.getElementById('chatbot-settings');
+
+        // User stats
+        let ecoPoints = 0;
+        let ecoTipsLearned = 0;
+        let carbonSaved = 0;
+        let isRecording = false;
+        let recognition;
+        let voiceOutputEnabled = true;
+        let isOnline = false;
+        let isAPNMode = false;
+        let chatSessions = {};
+        let currentChatId = 'default';
+
+        // Initialize Speech Synthesis
+        const synth = window.speechSynthesis;
+
+        // Initialize Speech Recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                voiceRecorderBtn.classList.add('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-stop"></i>';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+                sendMessage();
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+                isRecording = false;
+                voiceRecorderBtn.classList.remove('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                voiceRecorderBtn.classList.remove('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+        } else {
+            voiceRecorderBtn.disabled = true;
+            voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+            voiceRecorderBtn.title = 'Voice recognition not supported by your browser';
+        }
+
+        // Check internet connection
+        function checkInternetConnection() {
+            isOnline = navigator.onLine;
+            updateConnectionStatus();
+            return isOnline;
+        }
+
+        // Update connection status UI
+        function updateConnectionStatus() {
+            if (isOnline) {
+                connectionStatus.innerHTML = '<i class="fas fa-wifi"></i> Online Mode';
+                connectionStatus.className = 'connection-status online';
+            } else {
+                connectionStatus.innerHTML = '<i class="fas fa-wifi"></i> Offline Mode';
+                connectionStatus.className = 'connection-status offline';
+            }
+        }
+
+        // Toggle APN mode
+        apnToggle.addEventListener('change', function() {
+            isAPNMode = this.checked;
+            if (isAPNMode) {
+                alert('APN mode activated. Using advanced processing network.');
+            } else {
+                alert('Switched to local mode. Using local processing.');
+            }
+        });
+
+        // Toggle voice recognition on click
+        voiceRecorderBtn.addEventListener('click', function() {
+            if (!recognition) return;
+
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error('Speech recognition start error:', e);
+                }
+            }
+        });
+
+        // Speak text using speech synthesis
+        function speakText(text) {
+            if (!synth || !voiceOutputEnabled) return;
+
+            // Clean text by removing HTML tags
+            const cleanText = text.replace(/<[^>]*>/g, '');
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            synth.speak(utterance);
+        }
+
+        // Load all chat sessions from localStorage
+        function loadAllChatSessions() {
+            const savedSessions = localStorage.getItem('greenifyChatSessions');
+            if (savedSessions) {
+                chatSessions = JSON.parse(savedSessions);
+            } else {
+                // Initialize with default session
+                chatSessions = {
+                    'default': {
+                        messages: [],
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    }
+                };
+            }
+            
+            // Load current session
+            loadCurrentChatSession();
+            
+            // Populate recent chats
+            populateRecentChats();
+        }
+
+        // Load current conversation from localStorage
+        function loadCurrentChatSession() {
+            chatMessages.innerHTML = '';
+            if (chatSessions[currentChatId] && chatSessions[currentChatId].messages.length > 0) {
+                chatMessages.innerHTML = chatSessions[currentChatId].messages.join('');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                 // If no saved messages, add initial bot message
+                 addMessage(`
+                    <strong>Hello! I'm your Greenify AI Assistant.</strong> 🌱
+                    <p>How can I help you live greener today? You can ask me about sustainability tips, carbon reduction strategies, recycling info, or our Greenify features!</p>
+                    <div class="info-box">
+                        <i class="fas fa-lightbulb"></i> Try asking: "How can I reduce my plastic waste?" or "What are some energy-saving tips?"
+                    </div>
+                `, 'bot', false); // Do not speak initial message on load
+            }
+
+            // Load stats
+            const savedStats = localStorage.getItem('greenifyStats');
+            if (savedStats) {
+                const stats = JSON.parse(savedStats);
+                ecoPoints = stats.ecoPoints || 0;
+                ecoTipsLearned = stats.ecoTipsLearned || 0;
+                carbonSaved = stats.carbonSaved || 0;
+                voiceOutputEnabled = stats.voiceOutputEnabled !== undefined ? stats.voiceOutputEnabled : true;
+                updateStatsDisplay();
+                updateVoiceToggleIcon();
+            }
+        }
+
+        // Save conversation and settings to localStorage
+        function saveChatSession() {
+            // Store current chat messages
+            if (!chatSessions[currentChatId]) {
+                chatSessions[currentChatId] = {
+                    messages: [],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+            }
+            
+            chatSessions[currentChatId].messages = Array.from(chatMessages.children).map(el => el.outerHTML);
+            chatSessions[currentChatId].updatedAt = new Date().toISOString();
+            
+            localStorage.setItem('greenifyChatSessions', JSON.stringify(chatSessions));
+
+            // Save stats and settings
+            const stats = {
+                ecoPoints,
+                ecoTipsLearned,
+                carbonSaved,
+                voiceOutputEnabled
+            };
+            localStorage.setItem('greenifyStats', JSON.stringify(stats));
+        }
+
+        // Populate recent chats list
+        function populateRecentChats() {
+            recentChatsList.innerHTML = '';
+            
+            Object.entries(chatSessions).sort(([, a], [, b]) => new Date(b.updatedAt) - new Date(a.updatedAt)).forEach(([id, session]) => {
+                const chatItem = document.createElement('div');
+                chatItem.className = 'recent-chat-item';
+                if (id === currentChatId) {
+                    chatItem.classList.add('active');
+                }
+                
+                // Get first user message or bot message for preview
+                let previewText = 'New conversation';
+                if (session.messages && session.messages.length > 1) {
+                    const messageHtml = session.messages[1]; // Get the first user message
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = messageHtml;
+                    const messageText = tempDiv.textContent || tempDiv.innerText || '';
+                    previewText = messageText.length > 30 ? messageText.substring(0, 30) + '...' : messageText;
+                }
+                
+                const date = new Date(session.updatedAt).toLocaleDateString();
+                
+                chatItem.innerHTML = `
+                    <div class="recent-chat-title">Chat from ${date}</div>
+                    <div class="recent-chat-preview">${previewText}</div>
+                `;
+                
+                chatItem.addEventListener('click', () => {
+                    switchToChat(id);
+                });
+                
+                recentChatsList.appendChild(chatItem);
+            });
+        }
+
+        // Switch to a specific chat
+        function switchToChat(chatId) {
+            currentChatId = chatId;
+            loadCurrentChatSession();
+            populateRecentChats();
+            toggleSidebar(); // Close sidebar after selecting a chat
+        }
+
+        // Update stats display
+        function updateStatsDisplay() {
+            ecoPointsSpan.textContent = ecoPoints;
+            ecoinTipsSpan.textContent = ecoTipsLearned;
+            carbonSavedSpan.textContent = carbonSaved;
+        }
+
+        // Add message to chat
+        function addMessage(text, sender, speak = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+            messageBubble.innerHTML = text;
+
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Save conversation
+            saveChatSession();
+            populateRecentChats();
+
+            // Speak the message if it's from the bot and speaking is enabled
+            if (sender === 'bot' && speak) {
+                speakText(text);
+            }
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'bot');
+
+            const typingBubble = document.createElement('div');
+            typingBubble.classList.add('typing-indicator');
+            typingBubble.innerHTML = '<span></span><span></span><span></span>';
+
+            typingDiv.appendChild(typingBubble);
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            return typingDiv;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator(indicator) {
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // Enhanced bot response system
+        function getBotResponse(message) {
+            message = message.toLowerCase().trim();
+            let response = "I'm here to help you live sustainably! You can ask me about eco-tips, recycling, carbon footprint reduction, or Greenify features. What would you like to know?";
+
+            // Award points for interaction
+            ecoPoints += 2;
+
+            // --- Greenify Features & Navigation ---
+            if (message.includes("what is greenify") || message.includes("tell me about greenify") || message.includes("feature")) {
+                ecoTipsLearned += 1;
+                response = `
+                    **Greenify** is your ultimate companion for sustainable living! We provide tools and knowledge to help you reduce your environmental impact.
+                    Our key features include:
+                    <ul class="bot-response-list">
+                        <li><i class="fas fa-calculator"></i> **Carbon Footprint Calculator:** Measure and understand your personal carbon emissions.</li>
+                        <li><i class="fas fa-graduation-cap"></i> **Education Hub:** Access articles, guides, and tips on all things sustainability.</li>
+                        <li><i class="fas fa-cloud-sun"></i> **Forecast:** Stay informed about environmental conditions and air quality.</li>
+                        <li><i class="fas fa-bicycle"></i> **Green Mobility Planner:** Find eco-friendly transportation options to reduce your travel footprint.</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-sparkles"></i> Let's work together for a greener future!
+                    </div>
+                `;
+                ecoPoints += 5;
+            }
+            else if (message.includes("carbon") || message.includes("footprint")) {
+                ecoTipsLearned += 1;
+                response = `
+                    <strong>Reducing Your Carbon Footprint:</strong>
+                    <ul class="bot-response-list">
+                        <li><i class="fas fa-car"></i> Transportation (28% of US emissions): Drive less, use public transport, carpool, or switch to an EV</li>
+                        <li><i class="fas fa-home"></i> Home Energy (20%): Upgrade insulation, install efficient appliances, switch to LED bulbs</li>
+                        <li><i class="fas fa-utensils"></i> Food Choices (10%): Reduce meat consumption, buy local produce, minimize food waste</li>
+                        <li><i class="fas fa-shopping-cart"></i> Consumption: Buy less, choose sustainable products, repair instead of replace</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-tree"></i> The average American carbon footprint is 16 tons - 4x the global average! Our goal is under 2 tons.
+                    </div>
+                `;
+                carbonSaved += 5;
+                ecoPoints += 4;
+            }
+            else if (message.includes("tip") || message.includes("advice")) {
+                ecoTipsLearned += 1;
+                const tips = [
+                    "Switch to a reusable water bottle - Americans use 50 billion plastic bottles annually!",
+                    "Unplug devices when not in use - standby power can account for 10% of home energy use.",
+                    "Meatless Mondays - reducing meat consumption lowers your carbon footprint significantly.",
+                    "Line-dry clothes - dryers account for 6% of residential electricity use in the US.",
+                    "Install a smart thermostat - can save up to 10% annually on heating and cooling.",
+                    "Use public transport - one bus can replace 30 cars, reducing traffic and emissions.",
+                    "Fix leaky faucets - a single drip per second wastes 3,000 gallons of water annually."
+                ];
+                const tip = tips[Math.floor(Math.random() * tips.length)];
+                response = `
+                    <strong>Eco-Tip of the Day:</strong> ${tip}
+                    <div class="info-box">
+                        <i class="fas fa-seedling"></i> You've earned +2 Eco Points for learning a new sustainability tip!
+                    </div>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("recycle") || message.includes("waste")) {
+                ecoTipsLearned += 1;
+                if (message.includes("plastic")) {
+                    response = `
+                        <strong>Recycling Plastic:</strong>
+                        <ul class="bot-response-list">
+                            <li>Check the resin code (1-7) usually found on the bottom</li>
+                            <li>Most programs accept #1 (PET) and #2 (HDPE)</li>
+                            <li>Clean containers thoroughly - food residue can contaminate entire batches</li>
+                            <li>Plastic bags and films shouldn't go in curbside bins - take to store drop-offs</li>
+                            <li>Only 9% of plastic ever produced has been recycled - reducing use is best</li>
+                        </ul>
+                    `;
+                } else if (message.includes("electronic") || message.includes("e-waste")) {
+                    response = `
+                        <strong>E-Waste Recycling:</strong>
+                        <ul class="bot-response-list">
+                            <li>Never throw electronics in regular trash - they contain toxic materials</li>
+                            <li>Find certified e-waste recyclers through EPA's website</li>
+                            <li>Many manufacturers (Apple, Dell) have take-back programs</li>
+                            <li>Best Buy and Staples accept electronics for recycling</li>
+                            <li>Remove batteries from devices before recycling</li>
+                            <li>Wipe all personal data from devices first</li>
+                        </ul>
+                        <div class="info-box">
+                            <i class="fas fa-mobile-alt"></i> Recycling 1 million laptops saves energy equivalent to powering 3,500 homes annually!
+                        </div>
+                    `;
+                } else {
+                    response = `
+                        <strong>General Recycling Guidelines:</strong>
+                        <ul class="bot-response-list">
+                            <li>Know your local rules - recycling varies by community</li>
+                            <li>When in doubt, throw it out - wishcycling contaminates batches</li>
+                            <li>Rinse containers - food residue makes materials unrecyclable</li>
+                            <li>Keep plastic bags out of curbside bins - they jam machinery</li>
+                            <li>Flatten cardboard boxes to save space in collection trucks</li>
+                        </ul>
+                    `;
+                }
+                ecoPoints += 2;
+            }
+            else if (message.includes("water") || message.includes("conservation")) {
+                response = `
+                    <strong>Water Conservation Tips:</strong>
+                    <ul class="bot-response-list">
+                        <li>Install low-flow showerheads and faucet aerators</li>
+                        <li>Fix leaks promptly - a dripping faucet can waste 3,000 gallons/year</li>
+                        <li>Water plants in early morning to reduce evaporation</li>
+                        <li>Collect rainwater for gardening</li>
+                        <li>Only run full loads in dishwashers and washing machines</li>
+                        <li>Take 5-minute showers instead of baths</li>
+                    </ul>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("energy") || message.includes("electricity")) {
+                response = `
+                    <strong>Energy Saving Strategies:</strong>
+                    <ul class="bot-response-list">
+                        <li>Set thermostat to 68°F in winter, 78°F in summer</li>
+                        <li>Seal air leaks around windows and doors</li>
+                        <li>Use smart power strips to eliminate phantom loads</li>
+                        <li>Switch to ENERGY STAR certified appliances</li>
+                        <li>Consider solar panels - prices have dropped 70% in the last decade</li>
+                        <li>Wash clothes in cold water - 90% of energy goes to heating water</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-bolt"></i> The average US household spends $1,400 annually on energy bills - efficiency upgrades can save 25%!
+                    </div>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("hello") || message.includes("hi") || message.includes("hey")) {
+                response = "Hello! 🌱 Ready to make a positive environmental impact today? How can I assist you?";
+            }
+            else if (message.includes("thank") || message.includes("thanks")) {
+                response = "You're welcome! Every sustainable choice makes a difference. What else can I help you with today?";
+            }
+            else {
+                // Simulate understanding complex queries
+                if (message.includes("plastic alternative")) {
+                    response = "Great question! Consider these plastic alternatives: glass containers, stainless steel bottles, beeswax wraps, bamboo utensils, silicone storage bags, and compostable packaging. Each option has different best-use cases.";
+                }
+                else if (message.includes("sustainable fashion")) {
+                    response = "Sustainable fashion focuses on ethical production and eco-friendly materials. Tips: buy less, choose natural fibers (organic cotton, linen, hemp), support ethical brands, shop secondhand, and care for clothes to extend their life.";
+                }
+            }
+
+            updateStatsDisplay();
+            return response;
+        }
+
+        function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === "") return;
+
+            addMessage(messageText, 'user');
+            userInput.value = '';
+            userInput.focus();
+
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+
+            setTimeout(() => {
+                hideTypingIndicator(typingIndicator);
+                const botResponse = getBotResponse(messageText);
+                addMessage(botResponse, 'bot');
+            }, 1200);
+        }
+
+        // Clear chat functionality
+        clearChatBtn.addEventListener('click', function() {
+            chatMessages.innerHTML = '';
+            addMessage(`
+                <strong>Chat cleared!</strong> I'm ready for new questions about sustainability.
+                <div class="info-box">
+                    <i class="fas fa-recycle"></i> Remember: Your stats and previous conversations are still saved.
+                </div>
+            `, 'bot');
+        });
+        
+        // Clear Recent Chats functionality
+        clearRecentChatsBtn.addEventListener('click', function() {
+            if (confirm("Are you sure you want to clear all recent chats? This action cannot be undone.")) {
+                localStorage.removeItem('greenifyChatSessions');
+                chatSessions = {
+                    'default': {
+                        messages: [],
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    }
+                };
+                currentChatId = 'default';
+                loadCurrentChatSession();
+                populateRecentChats();
+                alert("All recent chats have been cleared.");
+            }
+        });
+
+        // New chat functionality
+        newChatBtn.addEventListener('click', function() {
+            // Generate a new chat ID
+            currentChatId = 'chat_' + Date.now();
+            chatSessions[currentChatId] = {
+                messages: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Clear the chat display
+            chatMessages.innerHTML = '';
+            addMessage(`
+                <strong>New conversation started!</strong> 🌍
+                <p>How can I help you with your sustainability journey today?</p>
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i> Try asking about recycling, energy conservation, or eco-friendly products.
+                </div>
+            `, 'bot');
+            
+            // Update recent chats list
+            populateRecentChats();
+        });
+
+        // Toggle Settings Menu
+        settingsBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            settingsMenu.classList.toggle('active');
+        });
+
+        // Close settings menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!settingsMenu.contains(event.target) && !settingsBtn.contains(event.target)) {
+                settingsMenu.classList.remove('active');
+            }
+        });
+
+        // Toggle Voice Output
+        function updateVoiceToggleIcon() {
+            toggleVoiceOutputBtn.innerHTML = voiceOutputEnabled ? '<i class="fas fa-volume-up"></i> Disable Voice Output' : '<i class="fas fa-volume-mute"></i> Enable Voice Output';
+        }
+
+        toggleVoiceOutputBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            voiceOutputEnabled = !voiceOutputEnabled;
+            updateVoiceToggleIcon();
+            saveChatSession();
+            alert(`Voice output is now ${voiceOutputEnabled ? 'enabled' : 'disabled'}.`);
+            settingsMenu.classList.remove('active');
+        });
+        
+        // Chatbot Settings
+        chatbotSettingsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('This feature is under development. Here you will be able to customize AI behavior, persona, and default responses.');
+            settingsMenu.classList.remove('active');
+        });
+
+        // Change Language
+        changeLanguageBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Multi-language support will be available in future updates. Currently, I primarily support English.');
+            settingsMenu.classList.remove('active');
+        });
+
+        // Export Chat Data
+        exportChatDataBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const chatData = {
+                sessions: chatSessions,
+                stats: {
+                    ecoPoints,
+                    ecoTipsLearned,
+                    carbonSaved
+                },
+                exportedAt: new Date().toISOString()
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(chatData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "greenify_chat_data_" + new Date().toISOString().slice(0, 10) + ".json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            
+            alert('Your chat data has been exported successfully!');
+            settingsMenu.classList.remove('active');
+        });
+
+        // Reset Stats
+        resetStatsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to reset all your Eco Points, Tips Learned, and CO2 Saved stats? This cannot be undone.')) {
+                ecoPoints = 0;
+                ecoTipsLearned = 0;
+                carbonSaved = 0;
+                updateStatsDisplay();
+                saveChatSession();
+                alert('Your stats have been reset!');
+                settingsMenu.classList.remove('active');
+            }
+        });
+
+        // Toggle Recent Chats Sidebar
+        function toggleSidebar() {
+            recentChatsSidebar.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        }
+
+        toggleRecentChatsBtn.addEventListener('click', toggleSidebar);
+        closeRecentChatsBtn.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        // Initialize chatbot
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        chatSuggestions.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                const query = e.target.dataset.query;
+                addMessage(query, 'user');
+                userInput.value = '';
+
+                const typingIndicator = showTypingIndicator();
+
+                setTimeout(() => {
+                    hideTypingIndicator(typingIndicator);
+                    const botResponse = getBotResponse(query);
+                    addMessage(botResponse, 'bot');
+                }, 1200);
+            }
+        });
+
+        // Check connection status on load and regularly
+        window.addEventListener('DOMContentLoaded', function() {
+            checkInternetConnection();
+            loadAllChatSessions();
+            
+            // Check connection status periodically
+            setInterval(checkInternetConnection, 30000);
+            
+            // Listen for online/offline events
+            window.addEventListener('online', checkInternetConnection);
+            window.addEventListener('offline', checkInternetConnection);
+        });
+    </script>
+</body>
+</html>
