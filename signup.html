@@ -1,55 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Greenify | Sign Up</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Create your Greenify account and start your sustainability journey." />
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
-        /* ===== VARIABLES (from Greenify CSS) ===== */
+        /* ── Variables (identical to Login) ── */
         :root {
-            --primary: #1a6f5c;
-            --primary-dark: #145a48;
-            --primary-light: #2d8a72;
-            --accent: #f39c12;
-            --accent-dark: #d35400;
-            --light: #f5f7fa;
-            --dark: #1e2a38;
-            --gray: #95a5a6;
-            --light-gray: #e0e7e9;
-            --success: #27ae60;
-            --info: #3498db;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
-            --corner-radius: 16px;
-            --section-padding: 100px;
-            --card-radius: 16px;
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --gold: #f59e0b;
+            --slate-200: #e2e8f2;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
+
+        /* ── Reset & Base ── */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        
+
         body {
-            background-color: var(--light);
-            color: var(--dark);
+            background: #0b1120;
+            color: var(--slate-200);
             line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content vertically and horizontally */
+            align-items: center;
             justify-content: center;
-            padding: 20px; /* Padding around the content on small screens */
+            padding: 20px;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
         }
-        
+
+        /* ── Animated starfield background (CSS only) ── */
         body::before {
             content: "";
             position: fixed;
@@ -57,235 +60,290 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
-            z-index: -1;
+            background:
+                radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 25% 35%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 60% 20%, rgba(16, 185, 129, 0.3), transparent),
+                radial-gradient(1px 1px at 75% 45%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(2px 2px at 85% 70%, rgba(245, 158, 11, 0.2), transparent),
+                radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 50% 60%, rgba(16, 185, 129, 0.3), transparent),
+                radial-gradient(1px 1px at 30% 90%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 70% 30%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(2px 2px at 90% 55%, rgba(16, 185, 129, 0.25), transparent);
+            background-size: 200% 200%;
+            animation: starMove 60s linear infinite;
+            z-index: 0;
             pointer-events: none;
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
+
+        @keyframes starMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
         }
-        
-        .btn {
-            display: inline-flex;
+
+        /* ── Glass card ── */
+        .auth-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 45px 40px;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            animation: fadeUp 0.8s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Logo ── */
+        .logo {
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 1.05rem;
-            text-align: center;
-            text-decoration: none;
-            gap: 8px;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--light);
-            box-shadow: var(--shadow);
-            font-weight: 700;
-            width: 100%; /* Make button full width */
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(26, 111, 92, 0.1);
-        }
-
-        /* --- Form Specific Styles --- */
-        .auth-card {
-            background: white;
-            border-radius: var(--corner-radius);
-            box-shadow: var(--shadow);
-            padding: 40px;
-            width: 100%;
-            max-width: 450px; /* Max width for the login/signup card */
-            text-align: center;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .auth-card .logo {
-            justify-content: center; /* Center the logo within the card */
+            gap: 12px;
             margin-bottom: 30px;
         }
 
-        .auth-card h2 {
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.4);
+            transition: var(--bounce);
+        }
+
+        .logo-img i {
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ── Heading ── */
+        h2 {
             font-size: 2.2rem;
-            color: var(--primary-dark);
+            color: white;
             margin-bottom: 25px;
             font-weight: 700;
         }
 
+        /* ── Form ── */
         .form-group {
-            margin-bottom: 20px;
-            text-align: left; /* Align labels/inputs to the left */
+            margin-bottom: 22px;
+            text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--slate-300);
             font-size: 0.95rem;
+        }
+
+        .form-group label i {
+            width: 20px;
+            color: var(--emerald-light);
         }
 
         .form-group input {
             width: 100%;
             padding: 14px 18px;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             font-size: 1rem;
-            color: var(--dark);
-            transition: border-color var(--transition), box-shadow var(--transition);
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 111, 92, 0.1); /* Light focus ring */
+            color: var(--slate-200);
+            transition: var(--transition);
             outline: none;
         }
 
+        .form-group input:focus {
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.25);
+        }
+
+        /* ── Form options ── */
         .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
             font-size: 0.9rem;
-            color: var(--gray);
+            color: var(--slate-400);
         }
 
-        .form-options .checkbox-group {
+        .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
         }
 
-        .form-options .checkbox-group input[type="checkbox"] {
+        .checkbox-group input[type="checkbox"] {
             width: 16px;
             height: 16px;
-            accent-color: var(--primary); /* Styles the checkbox */
+            accent-color: var(--emerald);
         }
 
-        .form-options a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .form-options a:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-
-        .text-center {
-            margin-top: 25px;
-            font-size: 0.95rem;
-            color: var(--gray);
-        }
-
-        .text-center a {
-            color: var(--primary);
+        .checkbox-group a {
+            color: var(--emerald-light);
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
         }
 
-        .text-center a:hover {
-            color: var(--accent);
+        .checkbox-group a:hover {
+            color: var(--gold);
             text-decoration: underline;
         }
 
-        /* Responsive Adjustments */
+        /* ── Primary button ── */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--bounce);
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: white;
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 35px rgba(5, 150, 105, 0.6);
+        }
+
+        /* ── Footer text ── */
+        .text-center {
+            margin-top: 28px;
+            font-size: 0.95rem;
+            color: var(--slate-400);
+        }
+
+        .text-center a {
+            color: var(--emerald-light);
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .text-center a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        /* ── Responsive ── */
         @media (max-width: 500px) {
             .auth-card {
                 padding: 30px 20px;
-                margin: 0 10px; /* Smaller margin on very small screens */
             }
-            .auth-card h2 {
+            h2 {
                 font-size: 1.8rem;
-            }
-            .btn {
-                padding: 12px 25px;
-                font-size: 1rem;
             }
             .form-options {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
                 align-items: flex-start;
             }
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+
     <div class="auth-card">
+        <!-- Logo -->
         <div class="logo">
             <div class="logo-img">
                 <i class="fas fa-leaf"></i>
             </div>
-            <div class="logo-text">Green<span>ify</span></div>
+            <div class="logo-text">Greenify</div>
         </div>
-        
-        <h2>Create Your Greenify Account</h2>
-        
+
+        <h2>Create Your Account</h2>
+
         <form action="#" method="POST">
+            <!-- Username -->
             <div class="form-group">
                 <label for="username"><i class="fas fa-user"></i> Username</label>
-                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required />
             </div>
 
+            <!-- Email -->
             <div class="form-group">
                 <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password"><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="password" name="password" placeholder="********" required>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required />
             </div>
 
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="password" name="password" placeholder="********" required />
+            </div>
+
+            <!-- Confirm Password -->
             <div class="form-group">
                 <label for="confirm-password"><i class="fas fa-check-circle"></i> Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="********" required>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="********" required />
             </div>
-            
+
+            <!-- Terms -->
             <div class="form-options">
                 <label class="checkbox-group">
-                    <input type="checkbox" name="terms-agree" required> I agree to the <a href="#">Terms & Privacy</a>
+                    <input type="checkbox" name="terms-agree" required />
+                    I agree to the <a href="#">Terms &amp; Privacy</a>
                 </label>
             </div>
-            
-            <button type="submit" class="btn btn-primary">
+
+            <!-- Submit -->
+            <button type="submit" class="btn-primary">
                 <i class="fas fa-user-plus"></i> Sign Up
             </button>
         </form>
-        
+
         <div class="text-center">
             Already have an account? <a href="login.html">Login Here</a>
         </div>
     </div>
+
 </body>
 </html>
