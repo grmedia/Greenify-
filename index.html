@@ -3,122 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greenify | Home</title>
+    <title>Greenify | Home - Your Sustainable Future</title>
+    <meta name="description" content="Greenify empowers you with tools and knowledge to reduce your carbon footprint and live sustainably. Join the green revolution today.">
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* ===== VARIABLES (from Greenify CSS) ===== */
         :root {
-            --primary: #1a6f5c;
-            --primary-dark: #145a48;
-            --primary-light: #2d8a72;
-            --accent: #f39c12;
-            --accent-dark: #d35400;
-            --light: #f5f7fa;
-            --dark: #1e2a38;
-            --gray: #95a5a6;
-            --light-gray: #e0e7e9;
-            --success: #27ae60;
-            --info: #3498db;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
-            --corner-radius: 16px;
-            --section-padding: 100px;
-            --card-radius: 16px; /* Added from previous Greenify CSS */
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --gold: #f59e0b;
+            --gold-dark: #d97706;
+            --cta: #e76f51;
+            --slate-200: #e2e8f2;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specified font-family */
-        }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh; /* Ensure body takes full height for footer positioning */
-            display: flex;
-            flex-direction: column;
-        }
-        
-        main {
-            flex-grow: 1; /* Pushes footer to the bottom */
-            /* No top padding needed here if hero handles it */
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        body::before {
-            content: "";
+        body {
+            background: #0b1120;
+            color: var(--slate-200);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #bgCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
-            z-index: -1;
+            z-index: 0;
             pointer-events: none;
+            opacity: 0.85;
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
+
+        main {
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
         }
-        
-        .section-padding {
-            padding: var(--section-padding) 0;
-        }
-        
-        .btn {
-            display: inline-flex; /* Changed to inline-flex for icon alignment */
-            align-items: center; /* For vertical icon alignment */
-            justify-content: center; /* For horizontal icon/text alignment */
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 1.05rem;
-            text-align: center;
-            text-decoration: none;
-            gap: 8px; /* Space between icon and text */
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--light);
-            box-shadow: var(--shadow);
-            font-weight: 700;
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(26, 111, 92, 0.1);
-        }
-        
-        /* Header */
+
+        /* ===== HEADER ===== */
         header {
-            background: white;
-            box-shadow: var(--shadow);
-            padding: 1.2rem 5%;
+            background: rgba(10, 15, 27, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -126,584 +79,621 @@
             width: 100%;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(5, 150, 105, 0.25);
             transition: var(--transition);
         }
-        
+        header.scrolled {
+            padding: 0.8rem 5%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(5, 20, 15, 0.92);
+        }
+
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
         }
-        
-        .logo-img {
-            width: 45px;
-            height: 45px;
-            background: var(--primary);
-            border-radius: 50%;
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.45);
+            transition: var(--bounce);
         }
-        
-        .logo-img i {
-            font-size: 1.5rem;
+        .logo:hover .logo-icon {
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(5, 150, 105, 0.7);
+        }
+        .logo-icon i {
+            font-size: 1.4rem;
             color: white;
         }
-        
         .logo-text {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            color: var(--primary);
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .logo-text span {
-            color: var(--accent);
-        }
-        
-        /* Navigation Styles */
+
         .nav-container {
             display: flex;
-            gap: 1.5rem;
+            gap: 0.3rem;
             list-style: none;
+            align-items: center;
         }
-        
         .nav-link {
-            color: var(--dark);
+            color: var(--slate-300);
             text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 0;
-            position: relative;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
             transition: var(--transition);
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 7px;
         }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
+        .nav-link i {
+            color: var(--slate-400);
             transition: var(--transition);
         }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
+        .nav-link:hover,
         .nav-link.active {
-            color: var(--primary);
+            color: var(--emerald-light);
+            background: rgba(5, 150, 105, 0.18);
+        }
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: var(--emerald-light);
+        }
+
+        /* AUTH BUTTONS */
+        .auth-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-left: 1.5rem;
+        }
+        .auth-links a {
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
             font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--bounce);
+            text-decoration: none;
+            white-space: nowrap;
         }
-        
-        .nav-link.active::after {
-            width: 100%;
+        .login-btn {
+            background: transparent;
+            border: 2px solid var(--emerald-light);
+            color: var(--emerald-light);
         }
-        
+        .login-btn:hover {
+            background: rgba(5, 150, 105, 0.12);
+            transform: translateY(-2px);
+        }
+        .signup-btn {
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.35);
+        }
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.55);
+        }
+
         .mobile-menu-btn {
             display: none;
-            background: transparent;
+            background: none;
             border: none;
-            color: var(--dark);
-            font-size: 1.5rem;
             cursor: pointer;
             z-index: 1001;
-            transition: var(--transition);
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             position: relative;
+            border-radius: 12px;
         }
-        
         .mobile-menu-btn .bar {
             display: block;
             position: absolute;
             height: 3px;
-            width: 30px;
-            background: var(--primary);
-            border-radius: 2px;
-            opacity: 1;
-            left: 5px;
-            transform: rotate(0deg);
+            width: 26px;
+            background: var(--slate-300);
+            border-radius: 3px;
+            left: 9px;
             transition: var(--transition);
         }
-        
-        .mobile-menu-btn .bar:nth-child(1) {
-            top: 10px;
-        }
-        
-        .mobile-menu-btn .bar:nth-child(2) {
-            top: 18px;
-        }
-        
-        .mobile-menu-btn .bar:nth-child(3) {
-            top: 26px;
-        }
-        
+        .mobile-menu-btn .bar:nth-child(1) { top: 12px; }
+        .mobile-menu-btn .bar:nth-child(2) { top: 20px; }
+        .mobile-menu-btn .bar:nth-child(3) { top: 28px; }
         .mobile-menu-btn.active .bar:nth-child(1) {
-            top: 18px;
+            top: 20px;
             transform: rotate(135deg);
+            background: var(--emerald-light);
         }
-        
         .mobile-menu-btn.active .bar:nth-child(2) {
             opacity: 0;
+            transform: scaleX(0);
         }
-        
         .mobile-menu-btn.active .bar:nth-child(3) {
-            top: 18px;
+            top: 20px;
             transform: rotate(-135deg);
+            background: var(--emerald-light);
         }
-        
-        /* Hero Section (Home Page specific) */
+
+        /* ===== HERO SECTION ===== */
         .hero {
-            min-height: 100vh; /* Make it full viewport height */
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 120px 20px 80px; /* Adjust top padding for fixed header */
-            background: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)), 
-                        url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); /* Your hero image */
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            animation: fadeIn 1s ease forwards; /* Add fade-in animation */
+            justify-content: center;
+            padding: 120px 30px 80px;
         }
-        
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        .hero-content {
+            animation: slideUp 0.9s ease forwards;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(5, 150, 105, 0.22);
+            color: #4ade80;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            border: 1px solid rgba(5, 150, 105, 0.4);
+        }
+        .hero-badge .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse-dot 1.8s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+            50% { box-shadow: 0 0 0 14px rgba(74, 222, 128, 0); }
+        }
+
         .hero h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            max-width: 900px;
-            font-weight: 800;
+            font-size: 4rem;
+            margin-bottom: 1.2rem;
+            color: white;
+            line-height: 1.15;
         }
-        
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--gold), var(--emerald-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .hero p {
-            font-size: 1.5rem;
-            color: var(--gray);
-            max-width: 800px;
-            margin-bottom: 3rem;
+            font-size: 1.25rem;
+            color: var(--slate-400);
+            max-width: 540px;
+            margin-bottom: 2.5rem;
         }
-        
+
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--bounce);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: white;
+            box-shadow: 0 6px 24px rgba(5, 150, 105, 0.45);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(5, 150, 105, 0.65);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--emerald-light);
+            color: var(--emerald-light);
+        }
+        .btn-outline:hover {
+            background: rgba(5, 150, 105, 0.12);
+            transform: translateY(-4px);
+        }
+
+        /* ===== EARTH MODEL (from Green Horizon) ===== */
+        .hero-visual {
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
-
-        /* --- Footer Specific Styles --- */
-        .footer {
-            background-color: var(--dark);
-            color: var(--light-gray);
-            padding: 60px 0;
-            font-size: 0.95rem;
-            border-top: 5px solid var(--primary);
-            margin-top: auto; /* Pushes footer to the bottom */
+        .earth-model {
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 60s linear infinite;
+            transition: transform 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .earth-model:hover {
+            transform: scale(1.05);
+        }
+        .earth-model::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1000') center/cover;
+            border-radius: 50%;
+            opacity: 0.8;
+            box-shadow: 
+                inset 0 0 50px rgba(0, 0, 0, 0.8),
+                0 0 100px rgba(5, 150, 105, 0.5);
+        }
+        .earth-model::after {
+            content: '';
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 60%, rgba(5, 150, 105, 0.25) 100%);
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
+        .earth-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 15, 27, 0.9);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 5;
+            width: 80%;
+        }
+        .earth-model:hover .earth-info {
+            opacity: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--slate-900);
+            color: var(--slate-400);
+            padding: 60px 0 30px;
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+            border-top: 4px solid var(--emerald);
+        }
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 40px;
-            margin-bottom: 40px;
+            max-width: 1300px;
+            margin: 0 auto 40px;
+            padding: 0 30px;
         }
-
         .footer-col h4 {
-            color: var(--light);
-            font-size: 1.3rem;
-            margin-bottom: 25px;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 22px;
             position: relative;
             padding-bottom: 10px;
         }
-
         .footer-col h4::after {
             content: '';
             position: absolute;
             left: 0;
             bottom: 0;
-            width: 50px;
+            width: 40px;
             height: 3px;
-            background-color: var(--accent);
+            background: var(--emerald-light);
             border-radius: 2px;
         }
-
-        .footer-col .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .footer-col .footer-logo .logo-img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .footer-col .footer-logo .logo-img i {
-            font-size: 1.3rem;
-        }
-
-        .footer-col .footer-logo .logo-text {
-            font-size: 1.5rem;
-            color: var(--light);
-        }
-
-        .footer-col p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-            color: var(--gray);
-        }
-        
-        .footer-col ul {
+        .footer-links {
             list-style: none;
             padding: 0;
         }
-
-        .footer-col ul li:not(:last-child) {
-            margin-bottom: 12px;
+        .footer-links li {
+            margin-bottom: 10px;
         }
-
-        .footer-col ul li a {
-            color: var(--light-gray);
+        .footer-links a {
+            color: var(--slate-400);
             text-decoration: none;
-            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: 400;
+            transition: var(--transition);
         }
-
-        .footer-col ul li a:hover {
-            color: var(--accent);
-            transform: translateX(5px);
+        .footer-links a:hover {
+            color: #4ade80;
+            transform: translateX(6px);
         }
-
-        .footer-social-links {
-            margin-top: 20px;
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
         }
-
-        .footer-social-links a {
-            display: inline-flex;
+        .social-links a {
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0 10px 10px 0;
-            text-align: center;
-            line-height: 40px;
             border-radius: 50%;
-            color: var(--light);
-            transition: var(--transition);
+            background: rgba(255,255,255,0.08);
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            color: var(--slate-300);
+            transition: var(--bounce);
         }
-
-        .footer-social-links a:hover {
-            background-color: var(--accent);
-            color: var(--dark);
-            transform: translateY(-3px) scale(1.05);
+        .social-links a:hover {
+            background: var(--emerald);
+            transform: translateY(-5px);
         }
-
         .footer-bottom {
             text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray);
-            font-size: 0.9rem;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--slate-500);
+            font-size: 0.85rem;
         }
 
-        .footer-bottom a {
-            color: var(--primary-light);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-bottom a:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-        
         /* Responsive */
         @media (max-width: 992px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero p { max-width: 100%; margin: 0 auto 2rem; }
+            .hero-buttons { justify-content: center; }
+            .hero h1 { font-size: 3rem; }
+            .hero-visual { order: -1; }
+            .earth-model { width: 350px; height: 350px; }
+            .auth-links { margin-left: auto; margin-right: 10px; }
+        }
+        @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-container {
                 position: fixed; top: 0; right: -100%; height: 100vh; width: 280px;
-                background: white; flex-direction: column; align-items: center; justify-content: center;
-                transition: var(--transition); box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); gap: 2rem; padding: 2rem;
+                background: rgba(10,15,27,0.98); flex-direction: column; align-items: flex-start;
+                padding: 100px 30px 30px; transition: var(--transition);
+                box-shadow: -8px 0 30px rgba(0,0,0,0.5);
             }
             .nav-container.active { right: 0; }
-            
-            .hero h1 {
-                font-size: 3.5rem;
-            }
-            .hero p {
-                font-size: 1.3rem;
-            }
+            .nav-link { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; }
+            .hero { padding: 100px 20px 60px; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .btn { width: 100%; max-width: 300px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .earth-model { width: 280px; height: 280px; }
+            .auth-links { margin-left: auto; }
+            .auth-links a { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
         }
-        
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-container {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: 280px;
-                background: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transition: var(--transition);
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                gap: 2rem;
-                padding: 2rem;
-            }
-            
-            .nav-container.active {
-                right: 0;
-            }
-            
-            .hero {
-                padding: 100px 20px 60px;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 80%; /* Make buttons wider on small screens */
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .footer-col h4::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            .footer-col .footer-logo {
-                justify-content: center;
-            }
-            .footer-social-links {
-                display: flex;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .btn {
-                width: 90%;
-            }
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .earth-model { width: 220px; height: 220px; }
+            .auth-links { gap: 8px; }
         }
     </style>
 </head>
 <body>
+    <canvas id="bgCanvas"></canvas>
+
     <header id="header">
-        <div class="logo">
-            <div class="logo-img">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <div class="logo-text">Green<span>ify</span></div>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+            <div class="logo-text">Greenify</div>
         </div>
-        
         <nav>
-            <button class="mobile-menu-btn" id="menuBtn">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </button>
             <ul class="nav-container" id="navMenu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="carbon.html" class="nav-link">
-                        <i class="fas fa-calculator"></i>
-                        <span>Carbon</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="education.html" class="nav-link">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Education</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="mobility.html" class="nav-link">
-                        <i class="fas fa-bicycle"></i>
-                        <span>Mobility</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="weather.html" class="nav-link">
-                        <i class="fas fa-cloud-sun"></i>
-                        <span>Weather</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="features.html" class="nav-link active">
-                        <i class="fas fa-sparkles"></i>
-                        <span>Features</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="chatbot.html" class="nav-link">
-                        <i class="fas fa-robot"></i>
-                        <span>Chatbot</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="faq.html" class="nav-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>FAQ</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="settings.html" class="nav-link">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="carbon.html" class="nav-link"><i class="fas fa-calculator"></i> Carbon</a></li>
+                <li><a href="education.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="mobility.html" class="nav-link"><i class="fas fa-bicycle"></i> Mobility</a></li>
+                <li><a href="weather.html" class="nav-link"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="chatbot.html" class="nav-link"><i class="fas fa-robot"></i> Chatbot</a></li>
+                <li><a href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
             </ul>
         </nav>
+        <div class="auth-links">
+            <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="signup.html" class="signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+        </div>
     </header>
 
     <main>
         <section class="hero">
             <div class="container">
-                <h1>Your Journey to a Greener Future Starts Here</h1>
-                <p>Empowering you with the knowledge and tools to reduce your carbon footprint and live a more sustainable life.</p>
-                
-                <div class="hero-buttons">
-                    <a href="features.html" class="btn btn-primary">
-                        <i class="fas fa-seedling"></i> Explore Features
-                    </a>
-                    <a href="about.html" class="btn btn-outline">
-                        <i class="fas fa-info-circle"></i> Learn More
-                    </a>
+                <div class="hero-content">
+                    <div class="hero-badge"><span class="dot"></span> Live Climate Awareness</div>
+                    <h1>Your Journey to a <span class="highlight">Sustainable Future</span> Begins Now</h1>
+                    <p>Access powerful tools, actionable insights, and a supportive community to reduce your environmental impact and embrace eco‑friendly living every day.</p>
+                    <div class="hero-buttons">
+                        <a href="dashboard.html" class="btn btn-primary"><i class="fas fa-tachometer-alt"></i> Go to Dashboard</a>
+                        <a href="about.html" class="btn btn-outline"><i class="fas fa-info-circle"></i> Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="earth-model">
+                        <div class="earth-info">
+                            <h3>Our Planet Needs You</h3>
+                            <p>Every small action contributes to a bigger change</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="footer-logo">
-                        <div class="logo-img">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="logo-text">Green<span>ify</span></div>
-                    </div>
-                    <p>Empowering you to live a more sustainable and eco-conscious life, one choice at a time. Join us in building a greener future!</p>
-                    <div class="footer-social-links">
-                        <a href="https://facebook.com/Greenify" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://twitter.com/Greenify" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com/Greenify" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://linkedin.com/company/Greenify" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html"><i class="fas fa-angle-right"></i> Home</a></li>
-                        <li><a href="carbon.html"><i class="fas fa-angle-right"></i> Carbon Calculator</a></li>
-                        <li><a href="education.html"><i class="fas fa-angle-right"></i> Eco-Education</a></li>
-                        <li><a href="mobility.html"><i class="fas fa-angle-right"></i> Mobility Planner</a></li>
-                        <li><a href="weather.html"><i class="fas fa-angle-right"></i> Weather Forecast</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Blog</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> FAQs</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Terms of Service</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Support</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Contact Us</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Eco Avenue, Green City, GC 12345</p>
-                    <p><i class="fas fa-envelope"></i> info@greenify.com</p>
-                    <p><i class="fas fa-phone"></i> +1 (234) 567-8900</p>
-                    <p><i class="fas fa-clock"></i> Mon - Fri: 9:00 AM - 5:00 PM CAT</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Greenify</h4>
+                <p style="color:var(--slate-400);">Empowering you to live sustainably, one smart choice at a time. Together, we can build a greener future.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                &copy; 2025 Greenify. All Rights Reserved. Designed with <i class="fas fa-heart" style="color: var(--danger);"></i> for a Greener Planet.
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-angle-right"></i> Home</a></li>
+                    <li><a href="carbon.html"><i class="fas fa-angle-right"></i> Carbon Calculator</a></li>
+                    <li><a href="education.html"><i class="fas fa-angle-right"></i> Eco‑Education</a></li>
+                    <li><a href="mobility.html"><i class="fas fa-angle-right"></i> Mobility Planner</a></li>
+                </ul>
             </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> FAQs</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Zengeza 1 High, ZW</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> info@greenify.com</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +263 773 870 464</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="currentYear">2025</span> Greenify. All rights reserved. Crafted with ❤️ for the planet.
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        menuBtn.addEventListener('click', function() {
-            menuBtn.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
+        (function() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationId;
 
-        // Close menu when clicking a link
-        const navLinks = document.querySelectorAll('#navMenu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuBtn.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = 'var(--shadow)';
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             }
-        });
+            window.addEventListener('resize', () => {
+                resize();
+                createParticles();
+            });
+            resize();
+
+            class Star {
+                constructor() { this.reset(true); }
+                reset(randomY = false) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = randomY ? Math.random() * canvas.height : -10;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedY = Math.random() * 0.5 + 0.2;
+                    this.opacity = Math.random() * 0.6 + 0.3;
+                    this.hue = Math.random() > 0.7 ? 140 + Math.random() * 30 : 200 + Math.random() * 40;
+                }
+                update() { this.y += this.speedY; if (this.y > canvas.height + 10) this.reset(); }
+                draw(ctx) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${this.hue}, 70%, 65%, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function createParticles() {
+                const count = Math.floor((canvas.width * canvas.height) / 12000);
+                particles = Array.from({ length: count }, () => new Star());
+            }
+            createParticles();
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(ctx); });
+                animationId = requestAnimationFrame(animate);
+            }
+            animate();
+
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            document.querySelectorAll('#navMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !menuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
