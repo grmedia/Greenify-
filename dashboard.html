@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Dashboard & Features</title>
+    <meta name="description" content="Your personal sustainability dashboard with live stats, tools, and activity history.">
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --gold: #f59e0b;
+            --slate-200: #e2e8f2;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(20, 30, 48, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --transition: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #0b1120;
+            color: var(--slate-200);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.8;
+        }
+
+        main {
+            flex-grow: 1;
+            position: relative; z-index: 1;
+            padding-top: 100px; padding-bottom: 60px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 15, 27, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 0.9rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(5, 150, 105, 0.25);
+            transition: var(--transition);
+        }
+        header.scrolled {
+            padding: 0.7rem 5%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(5, 20, 15, 0.92);
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+        }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 18px rgba(5, 150, 105, 0.4);
+            transition: var(--bounce);
+        }
+        .logo:hover .logo-icon {
+            border-radius: 50%;
+            box-shadow: 0 0 28px rgba(5, 150, 105, 0.65);
+        }
+        .logo-icon i { font-size: 1.3rem; color: white; }
+        .logo-text {
+            font-size: 1.55rem; font-weight: 800;
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-container {
+            display: flex; gap: 0.25rem; list-style: none; align-items: center;
+        }
+        .nav-link {
+            color: var(--slate-300);
+            text-decoration: none; font-weight: 600;
+            padding: 0.55rem 1.1rem; border-radius: 50px;
+            transition: var(--transition); font-size: 0.9rem;
+            display: flex; align-items: center; gap: 7px;
+        }
+        .nav-link i { color: var(--slate-400); transition: var(--transition); }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--emerald-light);
+            background: rgba(5, 150, 105, 0.16);
+        }
+        .nav-link:hover i,
+        .nav-link.active i { color: var(--emerald-light); }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none; border: none; cursor: pointer;
+            z-index: 1001; width: 40px; height: 40px; position: relative;
+            border-radius: 10px;
+        }
+        .mobile-menu-btn .bar {
+            display: block; position: absolute; height: 3px; width: 24px;
+            background: var(--slate-300); border-radius: 3px; left: 8px;
+            transition: var(--transition);
+        }
+        .mobile-menu-btn .bar:nth-child(1) { top: 11px; }
+        .mobile-menu-btn .bar:nth-child(2) { top: 19px; }
+        .mobile-menu-btn .bar:nth-child(3) { top: 27px; }
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            top: 19px; transform: rotate(135deg); background: var(--emerald-light);
+        }
+        .mobile-menu-btn.active .bar:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            top: 19px; transform: rotate(-135deg); background: var(--emerald-light);
+        }
+
+        /* Page content */
+        .container {
+            max-width: 1300px; margin: 0 auto; padding: 0 24px;
+        }
+
+        .page-header {
+            text-align: center; margin-bottom: 40px;
+            animation: fadeUp 0.7s ease forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .page-header .icon-circle {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 16px; box-shadow: 0 0 35px rgba(5, 150, 105, 0.45);
+            font-size: 2rem; color: white;
+        }
+        .page-header h1 { font-size: 2.6rem; font-weight: 800; color: white; margin-bottom: 8px; }
+        .page-header p { color: var(--slate-400); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+        /* Dashboard cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 28px 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+            transition: var(--transition);
+            margin-bottom: 24px;
+            animation: fadeUp 0.7s ease forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { border-color: rgba(5,150,105,0.35); transform: translateY(-4px); }
+
+        /* Shimmer effect on stat cards */
+        .shimmer-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(115deg, transparent 0%, rgba(16, 185, 129, 0.06) 25%, rgba(245, 158, 11, 0.06) 50%, transparent 75%);
+            transform: rotate(30deg);
+            animation: shimmer 4s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* Glowing border for feature cards */
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            padding: 1px;
+            background: linear-gradient(45deg, #10b981, #059669, #f59e0b, #10b981);
+            background-size: 300% 300%;
+            animation: borderGlow 4s ease infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card-header {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 18px; padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: relative; z-index: 1;
+        }
+        .card-header i { font-size: 1.4rem; color: var(--gold); }
+        .card-title { font-size: 1.2rem; color: var(--emerald-light); font-weight: 700; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+            border-radius: 50px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+            border: none; transition: var(--bounce);
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: white; box-shadow: 0 4px 15px rgba(5,150,105,0.35);
+            text-decoration: none;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(5,150,105,0.55); }
+
+        .btn-outline {
+            background: transparent; border: 2px solid var(--emerald-light);
+            color: var(--emerald-light); box-shadow: none;
+        }
+        .btn-outline:hover { background: rgba(5,150,105,0.12); }
+
+        .badge {
+            display: inline-block; padding: 4px 10px; border-radius: 12px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            background: var(--emerald); color: white; margin-left: 8px;
+        }
+        .badge.ai { background: #8b5cf6; }
+        .badge.new { background: #f59e0b; }
+        .badge.popular { background: #ef4444; }
+
+        .feature-card {
+            position: relative; cursor: pointer; text-decoration: none; color: inherit;
+            transition: all 0.4s cubic-bezier(0.25,0.8,0.25,1);
+        }
+        .feature-card .card-badge {
+            position: absolute; top: 16px; right: 16px;
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700;
+            background: var(--emerald); color: white;
+            z-index: 2;
+        }
+        .feature-card .card-badge.ai { background: #8b5cf6; }
+        .feature-card .card-badge.new { background: #f59e0b; }
+        .feature-card .card-badge.popular { background: #ef4444; }
+
+        .search-box {
+            display: flex; align-items: center;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50px; padding: 12px 22px;
+            max-width: 400px; margin: 0 auto 30px;
+            backdrop-filter: blur(8px);
+        }
+        .search-box input {
+            border: none; outline: none; background: transparent;
+            width: 100%; color: var(--slate-200); font-size: 0.95rem;
+        }
+        .search-box i { color: var(--slate-400); }
+
+        .recent-row {
+            display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;
+        }
+        .recent-item {
+            flex: 0 0 auto; background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 16px; min-width: 150px; text-align: center;
+            transition: var(--transition); cursor: pointer;
+            position: relative;
+        }
+        .recent-item:hover { border-color: var(--emerald-light); transform: translateY(-4px); }
+        .recent-time {
+            font-size: 0.7rem; color: var(--slate-500); margin-top: 6px;
+        }
+
+        .history-list {
+            max-height: 400px; overflow-y: auto; margin-top: 10px;
+        }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+        .history-item:last-child { border-bottom: none; }
+        .history-item .time {
+            font-size: 0.75rem; color: var(--slate-500); margin-right: 12px;
+            min-width: 100px;
+        }
+
+        .clear-btn {
+            background: transparent; border: 1px solid var(--slate-500); color: var(--slate-400);
+            padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; cursor: pointer;
+            transition: var(--transition);
+        }
+        .clear-btn:hover { background: rgba(239,68,68,0.15); border-color: #ef4444; color: #ef4444; }
+
+        .footer {
+            background: var(--slate-900);
+            color: var(--slate-500);
+            text-align: center; padding: 24px 0; font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            position: relative; z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-container {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 270px;
+                background: rgba(10,15,27,0.97); flex-direction: column; align-items: flex-start;
+                padding: 90px 24px 24px; transition: var(--transition);
+                box-shadow: -6px 0 28px rgba(0,0,0,0.5); gap: 0.3rem;
+            }
+            .nav-container.active { right: 0; }
+            .nav-link { width: 100%; padding: 0.75rem 1rem; border-radius: 12px; }
+            .page-header h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <header id="header">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+            <div class="logo-text">Greenify</div>
+        </div>
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+            <ul class="nav-container" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="carbon.html" class="nav-link"><i class="fas fa-calculator"></i> Carbon</a></li>
+                <li><a href="education.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="mobility.html" class="nav-link"><i class="fas fa-bicycle"></i> Mobility</a></li>
+                <li><a href="weather.html" class="nav-link"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+                <li><a href="dashboard.html" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="chatbot.html" class="nav-link"><i class="fas fa-robot"></i> Chatbot</a></li>
+                <li><a href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <div class="icon-circle"><i class="fas fa-tachometer-alt"></i></div>
+                <h1>Your Sustainability Dashboard</h1>
+                <p>Live stats from all your Greenify tools — updated in real time as you use the app.</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid" style="margin-bottom:20px;">
+                <a href="carbon.html" class="btn" style="justify-content:center;"><i class="fas fa-calculator"></i> Calculate Carbon</a>
+                <a href="mobility.html" class="btn" style="justify-content:center;"><i class="fas fa-route"></i> Plan a Trip</a>
+                <a href="weather.html" class="btn" style="justify-content:center;"><i class="fas fa-cloud-sun"></i> Check Weather</a>
+                <a href="education.html" class="btn" style="justify-content:center;"><i class="fas fa-graduation-cap"></i> Learn Something</a>
+            </div>
+
+            <!-- Stats Overview – live from localStorage -->
+            <div class="grid">
+                <div class="card shimmer-card fade-up">
+                    <div class="card-header"><i class="fas fa-calculator"></i> <span class="card-title">Carbon Footprint</span></div>
+                    <div style="font-size:2rem; font-weight:800; color:white;" id="statCarbon">0</div>
+                    <p style="color:var(--slate-400);">calculations this month</p>
+                </div>
+                <div class="card shimmer-card fade-up">
+                    <div class="card-header"><i class="fas fa-bicycle"></i> <span class="card-title">Green Mobility</span></div>
+                    <div style="font-size:2rem; font-weight:800; color:white;" id="statMobility">0</div>
+                    <p style="color:var(--slate-400);">eco‑routes planned</p>
+                </div>
+                <div class="card shimmer-card fade-up">
+                    <div class="card-header"><i class="fas fa-cloud-sun"></i> <span class="card-title">Weather Hub</span></div>
+                    <div style="font-size:2rem; font-weight:800; color:white;" id="statWeather">0</div>
+                    <p style="color:var(--slate-400);">forecasts checked</p>
+                </div>
+                <div class="card shimmer-card fade-up">
+                    <div class="card-header"><i class="fas fa-graduation-cap"></i> <span class="card-title">Education Hub</span></div>
+                    <div style="font-size:2rem; font-weight:800; color:white;" id="statEducation">0</div>
+                    <p style="color:var(--slate-400);">articles read</p>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="featureSearch" placeholder="Search features...">
+            </div>
+
+            <!-- Featured Tools with Badges -->
+            <div class="grid" id="featuresGrid">
+                <a href="carbon.html" class="card feature-card fade-up glow-border" data-name="Carbon Footprint Calculator">
+                    <span class="card-badge popular">POPULAR</span>
+                    <div class="card-header"><i class="fas fa-calculator"></i> <span class="card-title">Carbon Footprint Calculator</span></div>
+                    <p style="color:var(--slate-400); position:relative; z-index:1;">Measure your environmental impact and discover personalised reduction strategies.</p>
+                </a>
+                <a href="mobility.html" class="card feature-card fade-up glow-border" data-name="Green Mobility Planner">
+                    <span class="card-badge new">NEW</span>
+                    <div class="card-header"><i class="fas fa-route"></i> <span class="card-title">Green Mobility Planner</span></div>
+                    <p style="color:var(--slate-400); position:relative; z-index:1;">Plan eco‑friendly travel routes with lower emissions.</p>
+                </a>
+                <a href="weather.html" class="card feature-card fade-up glow-border" data-name="Environmental Weather Forecast">
+                    <span class="card-badge popular">POPULAR</span>
+                    <div class="card-header"><i class="fas fa-cloud-sun"></i> <span class="card-title">Weather Hub</span></div>
+                    <p style="color:var(--slate-400); position:relative; z-index:1;">Real‑time air quality, pollen, UV index and forecasts.</p>
+                </a>
+                <a href="education.html" class="card feature-card fade-up glow-border" data-name="Eco-Education Hub">
+                    <span class="card-badge new">NEW</span>
+                    <div class="card-header"><i class="fas fa-graduation-cap"></i> <span class="card-title">Eco‑Education Hub</span></div>
+                    <p style="color:var(--slate-400); position:relative; z-index:1;">Articles, videos and interactive content on sustainability.</p>
+                </a>
+                <a href="chatbot.html" class="card feature-card fade-up glow-border" data-name="Greenify Chatbot">
+                    <span class="card-badge ai">AI</span>
+                    <div class="card-header"><i class="fas fa-robot"></i> <span class="card-title">Greenify Chatbot</span></div>
+                    <p style="color:var(--slate-400); position:relative; z-index:1;">AI‑powered eco‑assistant ready to answer your questions.</p>
+                    <div style="display:flex; align-items:center; gap:8px; color:var(--slate-400); position:relative; z-index:1;">
+                        <span style="width:8px;height:8px;border-radius:50%;background:#10b981;"></span> Online
+                    </div>
+                </a>
+            </div>
+
+            <!-- Recently Used Section -->
+            <div class="card fade-up">
+                <div class="card-header" style="justify-content: space-between;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <i class="fas fa-clock"></i> <span class="card-title">Recently Used</span>
+                    </div>
+                    <button class="clear-btn" id="clearRecentBtn"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+                <div class="recent-row" id="recentRow"></div>
+            </div>
+
+            <!-- Full Activity History -->
+            <div class="card fade-up">
+                <div class="card-header" style="justify-content: space-between;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <i class="fas fa-history"></i> <span class="card-title">Activity History</span>
+                    </div>
+                    <button class="clear-btn" id="clearHistoryBtn"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <p style="color:var(--slate-500);">No activity yet. Click on any tool to start tracking.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="currentYear">2025</span> Greenify. All rights reserved. Crafted with ❤️ for the planet.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // ----- Starfield background -----
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animId;
+
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', () => { resize(); createStars(); });
+            resize();
+
+            class Star {
+                constructor() { this.reset(true); }
+                reset(rndY = false) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = rndY ? Math.random() * canvas.height : -10;
+                    this.r = Math.random() * 2.4 + 0.7;
+                    this.vy = Math.random() * 0.45 + 0.15;
+                    this.alpha = Math.random() * 0.55 + 0.3;
+                    this.hue = Math.random() > 0.65 ? 140 + Math.random()*30 : 200 + Math.random()*40;
+                }
+                update() { this.y += this.vy; if (this.y > canvas.height + 12) this.reset(); }
+                draw(c) {
+                    c.beginPath();
+                    c.arc(this.x, this.y, this.r, 0, Math.PI*2);
+                    c.fillStyle = `hsla(${this.hue},70%,65%,${this.alpha})`;
+                    c.fill();
+                }
+            }
+
+            function createStars() {
+                const n = Math.floor((canvas.width * canvas.height) / 13000);
+                particles = Array.from({ length: n }, () => new Star());
+            }
+            createStars();
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(s => { s.update(); s.draw(ctx); });
+                animId = requestAnimationFrame(loop);
+            }
+            loop();
+
+            // ----- Mobile menu -----
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            document.querySelectorAll('#navMenu a').forEach(l => l.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+
+            // ----- Header scroll -----
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 50));
+
+            // ----- Footer year -----
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // ----- Shared stats across the whole app -----
+            const STATS_KEY = 'greenify_usage_stats';
+
+            function getStats() {
+                try {
+                    return JSON.parse(localStorage.getItem(STATS_KEY)) || {
+                        carbon: 0,
+                        mobility: 0,
+                        weather: 0,
+                        education: 0
+                    };
+                } catch {
+                    return { carbon: 0, mobility: 0, weather: 0, education: 0 };
+                }
+            }
+
+            function saveStats(stats) {
+                localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+            }
+
+            function updateStatDisplay() {
+                const stats = getStats();
+                document.getElementById('statCarbon').textContent = stats.carbon;
+                document.getElementById('statMobility').textContent = stats.mobility;
+                document.getElementById('statWeather').textContent = stats.weather;
+                document.getElementById('statEducation').textContent = stats.education;
+            }
+
+            // This function is called by other tools to increment a counter
+            window.incrementDashboardStat = function(tool) {
+                const stats = getStats();
+                const map = {
+                    'carbon': 'carbon',
+                    'mobility': 'mobility',
+                    'weather': 'weather',
+                    'education': 'education'
+                };
+                const key = map[tool];
+                if (key) {
+                    stats[key] = (stats[key] || 0) + 1;
+                    saveStats(stats);
+                    updateStatDisplay();
+                }
+            };
+
+            // Listen for storage events to update when another tab changes stats
+            window.addEventListener('storage', (e) => {
+                if (e.key === STATS_KEY) {
+                    updateStatDisplay();
+                }
+            });
+
+            // Also poll every second to catch updates from same tab (in case other pages don't trigger storage event)
+            setInterval(updateStatDisplay, 1000);
+
+            // ----- History & Recently used management -----
+            const HISTORY_KEY = 'greenify_history'; // array of {tool, time}
+
+            function getHistory() {
+                try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
+            }
+
+            function addToHistory(tool) {
+                let history = getHistory();
+                history.unshift({ tool, time: Date.now() });
+                if (history.length > 50) history = history.slice(0, 50);
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            }
+
+            function renderRecentlyUsed() {
+                const history = getHistory();
+                // Get unique tools, keep first occurrence
+                const seen = new Set();
+                const recent = [];
+                for (let item of history) {
+                    if (!seen.has(item.tool)) {
+                        seen.add(item.tool);
+                        recent.push(item);
+                        if (recent.length >= 3) break;
+                    }
+                }
+                const row = document.getElementById('recentRow');
+                if (recent.length === 0) {
+                    row.innerHTML = '<p style="color:var(--slate-400);">No recent tools yet. Click on a feature to start.</p>';
+                    return;
+                }
+                row.innerHTML = recent.map(entry => {
+                    const tool = entry.tool;
+                    const time = new Date(entry.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const link = tool === 'Carbon Footprint Calculator' ? 'carbon.html' : 
+                                (tool === 'Green Mobility Planner' ? 'mobility.html' : 
+                                (tool === 'Environmental Weather Forecast' ? 'weather.html' : 
+                                (tool === 'Eco-Education Hub' ? 'education.html' : 'chatbot.html')));
+                    const icon = tool === 'Carbon Footprint Calculator' ? 'fa-calculator' : 
+                                (tool === 'Green Mobility Planner' ? 'fa-route' : 
+                                (tool === 'Environmental Weather Forecast' ? 'fa-cloud-sun' : 
+                                (tool === 'Eco-Education Hub' ? 'fa-graduation-cap' : 'fa-robot')));
+                    return `<div class="recent-item" onclick="window.location.href='${link}'">
+                        <i class="fas ${icon}" style="font-size:2rem; color:var(--emerald-light);"></i>
+                        <p style="margin-top:8px;">${tool}</p>
+                        <div class="recent-time">${time}</div>
+                    </div>`;
+                }).join('');
+            }
+
+            function renderHistory() {
+                const history = getHistory();
+                const list = document.getElementById('historyList');
+                if (history.length === 0) {
+                    list.innerHTML = '<p style="color:var(--slate-500);">No activity yet. Click on any tool to start tracking.</p>';
+                    return;
+                }
+                list.innerHTML = history.map(entry => {
+                    const time = new Date(entry.time).toLocaleString();
+                    return `<div class="history-item">
+                        <span style="color:var(--slate-200);"><i class="fas fa-clock" style="color:var(--slate-500); margin-right:8px;"></i>${entry.tool}</span>
+                        <span class="time">${time}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            // Update history when a feature card is clicked
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    const toolName = this.dataset.name;
+                    if (toolName) {
+                        addToHistory(toolName);
+                        renderRecentlyUsed();
+                        renderHistory();
+                        // Also increment the corresponding stat if it's one of the four main tools
+                        const toolMap = {
+                            'Carbon Footprint Calculator': 'carbon',
+                            'Green Mobility Planner': 'mobility',
+                            'Environmental Weather Forecast': 'weather',
+                            'Eco-Education Hub': 'education'
+                        };
+                        const statKey = toolMap[toolName];
+                        if (statKey) {
+                            window.incrementDashboardStat(statKey);
+                        }
+                    }
+                });
+            });
+
+            // Clear buttons
+            document.getElementById('clearRecentBtn').addEventListener('click', () => {
+                localStorage.removeItem(HISTORY_KEY);
+                renderRecentlyUsed();
+                renderHistory();
+            });
+            document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+                localStorage.removeItem(HISTORY_KEY);
+                renderRecentlyUsed();
+                renderHistory();
+            });
+
+            // Search filter
+            const searchInput = document.getElementById('featureSearch');
+            searchInput.addEventListener('input', function() {
+                const term = this.value.toLowerCase();
+                document.querySelectorAll('#featuresGrid .feature-card').forEach(card => {
+                    const name = card.dataset.name.toLowerCase();
+                    card.style.display = name.includes(term) ? '' : 'none';
+                });
+            });
+
+            // Fade-up animation for visible cards on load
+            function animateVisible() {
+                document.querySelectorAll('.fade-up').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 50) {
+                        el.style.opacity = '1';
+                    }
+                });
+            }
+            window.addEventListener('load', animateVisible);
+            window.addEventListener('scroll', animateVisible);
+
+            // Initial render
+            updateStatDisplay();
+            renderRecentlyUsed();
+            renderHistory();
+
+            // Close mobile menu on outside click
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !menuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            console.log('🌿 Greenify Dashboard ready – live stats and history active.');
+        })();
+    </script>
+</body>
+</html> 
