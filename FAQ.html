@@ -1,214 +1,313 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greenify | FAQ</title>
+    <title>Greenify | Frequently Asked Questions</title>
+    <meta name="description" content="Find answers about Greenify's features, data privacy, carbon tracking, and more.">
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* ===== VARIABLES (from Greenify CSS) ===== */
         :root {
-            --primary: #1a6f5c;
-            --primary-dark: #145a48;
-            --primary-light: #2d8a72;
-            --accent: #f39c12;
-            --accent-dark: #d35400;
-            --light: #f5f7fa;
-            --dark: #1e2a38;
-            --gray: #95a5a6;
-            --light-gray: #e0e7e9;
-            --success: #27ae60;
-            --info: #3498db;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
-            --corner-radius: 16px;
-            --section-padding: 100px;
-            --card-radius: 16px;
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --gold: #f59e0b;
+            --slate-200: #e2e8f2;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(20, 30, 48, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --transition: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        
+
         body {
-            background-color: var(--light);
-            color: var(--dark);
+            background: #0b1120;
+            color: var(--slate-200);
             line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-        
-        main {
-            flex-grow: 1;
-            padding-top: 80px; /* Adjust for fixed header */
+            position: relative;
+            -webkit-font-smoothing: antialiased;
         }
 
-        body::before {
-            content: "";
+        #bgCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
-            z-index: -1;
+            z-index: 0;
             pointer-events: none;
+            opacity: 0.8;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
+
+        main {
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+            padding-top: 100px;
+            padding-bottom: 60px;
         }
-        
-        .section-padding {
-            padding: var(--section-padding) 0;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 1.05rem;
-            text-align: center;
-            text-decoration: none;
-            gap: 8px;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--light);
-            box-shadow: var(--shadow);
-            font-weight: 700;
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(26, 111, 92, 0.1);
-        }
-        
-        /* ================== HEADER ================== */
+
+        /* Header */
         header {
-            background: white;
-            box-shadow: var(--shadow);
-            padding: 0.8rem 5%; /* Adjusted padding */
+            background: rgba(10, 15, 27, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 0.9rem 5%;
             display: flex;
-            justify-content: flex-start; /* Aligned to the left after nav removal */
+            justify-content: space-between;
             align-items: center;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(5, 150, 105, 0.25);
             transition: var(--transition);
         }
-        
+        header.scrolled {
+            padding: 0.7rem 5%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(5, 20, 15, 0.92);
+        }
+
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 1001;
+            cursor: pointer;
         }
-        
-        .logo-img {
-            width: 45px;
-            height: 45px;
-            background: var(--primary);
-            border-radius: 50%;
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+            box-shadow: 0 0 18px rgba(5, 150, 105, 0.4);
+            transition: var(--bounce);
         }
-        
-        .logo-img i {
-            font-size: 1.5rem;
+        .logo:hover .logo-icon {
+            border-radius: 50%;
+            box-shadow: 0 0 28px rgba(5, 150, 105, 0.65);
+        }
+        .logo-icon i {
+            font-size: 1.3rem;
             color: white;
         }
-        
         .logo-text {
-            font-size: 1.8rem;
+            font-size: 1.55rem;
             font-weight: 800;
-            color: var(--primary);
-        }
-        
-        .logo-text span {
-            color: var(--accent);
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Hero Section */
-        .hero-section {
+        .nav-container {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-link {
+            color: var(--slate-300);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.55rem 1.1rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .nav-link i {
+            color: var(--slate-400);
+            transition: var(--transition);
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--emerald-light);
+            background: rgba(5, 150, 105, 0.16);
+        }
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: var(--emerald-light);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            border-radius: 10px;
+        }
+        .mobile-menu-btn .bar {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 24px;
+            background: var(--slate-300);
+            border-radius: 3px;
+            left: 8px;
+            transition: var(--transition);
+        }
+        .mobile-menu-btn .bar:nth-child(1) { top: 11px; }
+        .mobile-menu-btn .bar:nth-child(2) { top: 19px; }
+        .mobile-menu-btn .bar:nth-child(3) { top: 27px; }
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            top: 19px;
+            transform: rotate(135deg);
+            background: var(--emerald-light);
+        }
+        .mobile-menu-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            top: 19px;
+            transform: rotate(-135deg);
+            background: var(--emerald-light);
+        }
+
+        /* Page content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
             text-align: center;
-            padding: 100px 20px 60px;
-            background-size: cover;
-            background-position: center;
+            margin-bottom: 48px;
+            animation: fadeUp 0.7s ease forwards;
         }
-        
-        .hero-section h1 {
-            font-size: 3.2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-dark);
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .hero-section p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 700px;
+        .page-header .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 35px rgba(5, 150, 105, 0.45);
+            font-size: 2rem;
+            color: white;
+        }
+        .page-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            color: var(--slate-400);
+            font-size: 1.05rem;
+            max-width: 500px;
             margin: 0 auto;
         }
-        
-        /* FAQ Section */
-        .faq-section {
-            background-color: white;
-            border-radius: var(--corner-radius);
-            box-shadow: var(--shadow);
-            padding: 35px;
-            margin-bottom: 40px;
+
+        /* Search bar */
+        .search-wrapper {
+            margin-bottom: 32px;
+            position: relative;
+            animation: fadeUp 0.7s ease 0.1s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
-        .faq-section h2 {
-            font-size: 2rem;
-            color: var(--primary-dark);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--light-gray);
+        .search-wrapper input {
+            width: 100%;
+            padding: 16px 52px 16px 24px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50px;
+            font-size: 1rem;
+            color: var(--slate-200);
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+        }
+        .search-wrapper input:focus {
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 0 3px rgba(5,150,105,0.2);
+        }
+        .search-wrapper i {
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+            font-size: 1.2rem;
+        }
+
+        /* FAQ cards */
+        .faq-category {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 32px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+            transition: var(--transition);
+            animation: fadeUp 0.7s ease forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        .faq-category:nth-child(2) { animation-delay: 0.15s; }
+        .faq-category:nth-child(3) { animation-delay: 0.3s; }
+        .faq-category:nth-child(4) { animation-delay: 0.45s; }
+        .faq-category:hover {
+            border-color: rgba(5,150,105,0.35);
+            box-shadow: 0 12px 44px rgba(0,0,0,0.55);
+        }
+        .faq-category h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--emerald-light);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .faq-section h2 i {
-            color: var(--primary);
-            font-size: 1.8rem;
+        .faq-category h2 i {
+            color: var(--gold);
+            font-size: 1.6rem;
         }
 
         .faq-item {
-            border-bottom: 1px solid var(--light-gray);
-            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 18px 0;
         }
         .faq-item:last-child {
             border-bottom: none;
@@ -218,193 +317,316 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--dark);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--slate-200);
+            transition: color var(--transition);
+        }
+        .faq-question:hover {
+            color: var(--emerald-light);
         }
         .faq-question i {
+            font-size: 1.1rem;
             transition: transform var(--transition);
+            color: var(--slate-400);
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--emerald-light);
         }
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            padding-left: 10px;
-            color: var(--gray);
-            font-size: 1rem;
+            transition: max-height 0.5s ease-in-out;
+            color: var(--slate-400);
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
         .faq-answer p {
-            padding-top: 15px;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 200px; /* Adjust as needed for content length */
-        }
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
+            padding-top: 14px;
         }
 
-        /* Responsive */
+        /* Contact row */
+        .contact-row {
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeUp 0.7s ease 0.5s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        .btn-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 6px 22px rgba(5,150,105,0.4);
+            transition: var(--bounce);
+        }
+        .btn-contact:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 34px rgba(5,150,105,0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--slate-900);
+            color: var(--slate-500);
+            text-align: center;
+            padding: 24px 0;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            z-index: 1;
+        }
+
         @media (max-width: 768px) {
-            .hero-section {
-                padding: 80px 15px 40px;
+            .mobile-menu-btn { display: block; }
+            .nav-container {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 270px;
+                background: rgba(10,15,27,0.97); flex-direction: column; align-items: flex-start;
+                padding: 90px 24px 24px; transition: var(--transition);
+                box-shadow: -6px 0 28px rgba(0,0,0,0.5); gap: 0.3rem;
             }
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-            .faq-section {
-                padding: 25px;
-            }
-            .faq-section h2 {
-                font-size: 1.6rem;
-            }
-            .faq-question {
-                font-size: 1rem;
-            }
+            .nav-container.active { right: 0; }
+            .nav-link { width: 100%; padding: 0.75rem 1rem; border-radius: 12px; }
+            .page-header h1 { font-size: 2rem; }
+            .faq-category { padding: 24px 18px; }
+            .faq-category h2 { font-size: 1.3rem; }
+            .faq-question { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.6rem; }
+            .search-wrapper input { padding: 14px 42px 14px 18px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+    <canvas id="bgCanvas"></canvas>
+
     <header id="header">
-        <div class="logo">
-            <div class="logo-img">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <div class="logo-text">Green<span>ify</span></div>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+            <div class="logo-text">Greenify</div>
         </div>
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+            <ul class="nav-container" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="carbon.html" class="nav-link"><i class="fas fa-calculator"></i> Carbon</a></li>
+                <li><a href="education.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="mobility.html" class="nav-link"><i class="fas fa-bicycle"></i> Mobility</a></li>
+                <li><a href="weather.html" class="nav-link"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="chatbot.html" class="nav-link"><i class="fas fa-robot"></i> Chatbot</a></li>
+                <li><a href="faq.html" class="nav-link active"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <section class="hero-section" style="background-image: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)), url('https://images.unsplash.com/photo-1520695034177-3e110ac12a9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-            <div class="container">
+        <div class="container">
+            <div class="page-header">
+                <div class="icon-circle"><i class="fas fa-question-circle"></i></div>
                 <h1>Frequently Asked Questions</h1>
-                <p>Find quick answers to your questions about Greenify's features, data, and sustainability.</p>
+                <p>Quick answers about Greenify, your data, and how to make the most of our sustainability tools.</p>
             </div>
-        </section>
 
-        <section class="section-padding">
-            <div class="container">
-                <div class="faq-section">
-                    <h2><i class="fas fa-circle-question"></i> General Questions</h2>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            What is Greenify and how does it work?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Greenify is a web application designed to help you track and reduce your environmental footprint. It works by allowing you to log your daily activities (like transportation, energy use, and consumption), calculating your estimated carbon emissions, and providing personalized tips and challenges to help you live more sustainably.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Is Greenify free to use?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Greenify offers a comprehensive free tier with most of its core features. We also have premium features (e.g., advanced analytics, exclusive challenges) available through an optional subscription to support our ongoing development.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            How does Greenify calculate my carbon footprint?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>We use a combination of scientific data, publicly available emission factors, and advanced AI algorithms to estimate your carbon footprint based on the data you provide about your activities. Our system continuously learns and refines its calculations for accuracy.</p>
-                        </div>
-                    </div>
+            <div class="search-wrapper">
+                <input type="text" id="faqSearch" placeholder="Search questions...">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <!-- FAQ Categories -->
+            <div class="faq-category" data-category="general">
+                <h2><i class="fas fa-circle-question"></i> General</h2>
+                <div class="faq-item">
+                    <div class="faq-question">What is Greenify and how does it work? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Greenify is a web platform that helps you track and reduce your environmental footprint. Log your daily activities like transport and energy use, and we calculate your estimated carbon emissions using scientific emission factors, then provide personalized tips and challenges to live greener.</p></div>
                 </div>
-
-                <div class="faq-section">
-                    <h2><i class="fas fa-shield-alt"></i> Data & Privacy</h2>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Is my data safe and private with Greenify?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Absolutely. Your privacy is our top priority. We use industry-standard encryption for all data, never share your personal identifiable information with third parties without your explicit consent, and comply with global data protection regulations like GDPR and CCPA. You can manage your data preferences in the Settings section.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Can I export my data?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Yes, you can export your personal data and carbon tracking history as a CSV file from your Settings page under the "Data & Privacy" section.</p>
-                        </div>
-                    </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is Greenify free to use? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes, Greenify offers a generous free tier with all core features. Optional premium features (advanced analytics, exclusive challenges) are available via subscription to support our mission.</p></div>
                 </div>
-
-                <div class="faq-section">
-                    <h2><i class="fas fa-lightbulb"></i> Features & Usage</h2>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            How do I connect my smart home devices?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>You can connect compatible smart home devices (like smart thermostats or energy monitors) via the "Smart Home Integration" option in your Settings. Follow the on-screen prompts to authorize the connection securely.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            What are Eco-Challenges and how do I join?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Eco-Challenges are fun, goal-oriented activities designed to help you adopt greener habits. You can browse and join challenges from the "Challenges" section in the app. Some challenges are personalized based on your activity data!</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Can I chat with an AI assistant for eco-tips?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Yes! Our AI-powered Eco-Assistant is available 24/7 to answer your sustainability questions and provide instant tips. Just click on the "Chatbot" link in the navigation menu or visit the "Help & Support" section in Settings.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-section">
-                    <h2><i class="fas fa-handshake-angle"></i> Support & Contact</h2>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            How can I contact Greenify support?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>You can email our support team at <a href="mailto:support@greenify.com">support@greenify.com</a>, or use the "Report a Bug" link in the Settings page if you encounter an issue.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <p>Still have questions? <a href="mailto:support@greenify.com" class="btn btn-primary">Contact Support</a></p>
+                <div class="faq-item">
+                    <div class="faq-question">How does Greenify calculate my carbon footprint? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We combine peer‑reviewed emission factors, your activity data, and AI to estimate your carbon footprint. Our models follow standards from the IPCC and governmental environmental agencies, and they are regularly updated for accuracy.</p></div>
                 </div>
             </div>
-        </section>
+
+            <div class="faq-category" data-category="privacy">
+                <h2><i class="fas fa-shield-alt"></i> Data & Privacy</h2>
+                <div class="faq-item">
+                    <div class="faq-question">Is my data safe and private? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Absolutely. We use end‑to‑end encryption for all personal data, never share identifiable information without your consent, and comply with GDPR and CCPA. You can manage your data in Settings.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I export my data? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes, you can export your activity history and carbon footprint data as a CSV file from Settings > Data & Privacy.</p></div>
+                </div>
+            </div>
+
+            <div class="faq-category" data-category="features">
+                <h2><i class="fas fa-lightbulb"></i> Features & Usage</h2>
+                <div class="faq-item">
+                    <div class="faq-question">How do I connect smart home devices? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Go to Settings > Smart Home Integration and follow the prompts to securely link compatible devices like smart thermostats or energy monitors.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What are Eco‑Challenges? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Eco‑Challenges are fun, goal‑based activities that help you adopt sustainable habits. Browse and join them from the Challenges section; some are personalized to your lifestyle.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I chat with an AI for eco‑tips? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes! Our AI Eco‑Assistant is available 24/7 via the Chatbot page. It answers sustainability questions and gives instant, personalized advice.</p></div>
+                </div>
+            </div>
+
+            <div class="faq-category" data-category="support">
+                <h2><i class="fas fa-handshake-angle"></i> Support</h2>
+                <div class="faq-item">
+                    <div class="faq-question">How can I contact support? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Email us at <a href="mailto:support@greenify.com" style="color:var(--emerald-light);">support@greenify.com</a> or use the "Report a Bug" option in Settings. We typically respond within 24 hours.</p></div>
+                </div>
+            </div>
+
+            <div class="contact-row">
+                <a href="mailto:support@greenify.com" class="btn-contact"><i class="fas fa-envelope"></i> Contact Support</a>
+            </div>
+        </div>
     </main>
 
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = 'var(--shadow)';
-            }
-        });
+    <footer class="footer">
+        <p>&copy; <span id="currentYear">2025</span> Greenify. All rights reserved. Crafted with ❤️ for the planet.</p>
+    </footer>
 
-        // FAQ Accordion JavaScript
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', event => {
-                const faqItem = item.closest('.faq-item');
-                faqItem.classList.toggle('active');
+    <script>
+        (function() {
+            // ----- Starfield background -----
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animId;
+
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', () => { resize(); createStars(); });
+            resize();
+
+            class Star {
+                constructor() { this.reset(true); }
+                reset(rndY = false) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = rndY ? Math.random() * canvas.height : -10;
+                    this.r = Math.random() * 2.4 + 0.7;
+                    this.vy = Math.random() * 0.45 + 0.15;
+                    this.alpha = Math.random() * 0.55 + 0.3;
+                    this.hue = Math.random() > 0.65 ? 140 + Math.random()*30 : 200 + Math.random()*40;
+                }
+                update() { this.y += this.vy; if (this.y > canvas.height + 12) this.reset(); }
+                draw(c) {
+                    c.beginPath();
+                    c.arc(this.x, this.y, this.r, 0, Math.PI*2);
+                    c.fillStyle = `hsla(${this.hue},70%,65%,${this.alpha})`;
+                    c.fill();
+                }
+            }
+
+            function createStars() {
+                const n = Math.floor((canvas.width * canvas.height) / 13000);
+                particles = Array.from({ length: n }, () => new Star());
+            }
+            createStars();
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(s => { s.update(); s.draw(ctx); });
+                animId = requestAnimationFrame(loop);
+            }
+            loop();
+
+            // ----- Mobile menu -----
+            const menuBtn = document.getElementById('menuBtn');
+            const navMenu = document.getElementById('navMenu');
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('active');
+                navMenu.classList.toggle('active');
             });
-        });
+            document.querySelectorAll('#navMenu a').forEach(l => l.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+
+            // ----- Header scroll -----
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 50));
+
+            // ----- Footer year -----
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // ----- FAQ Accordion (smooth height animation) -----
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.closest('.faq-item');
+                    const answer = item.querySelector('.faq-answer');
+                    const isActive = item.classList.contains('active');
+
+                    // Close all open items in the same category? (optional: keep only one open)
+                    // For better UX, we'll allow multiple open, but you can change to single open.
+                    // Here we'll just toggle the clicked one.
+
+                    if (isActive) {
+                        item.classList.remove('active');
+                        answer.style.maxHeight = '0';
+                    } else {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // ----- Live Search Filter -----
+            const searchInput = document.getElementById('faqSearch');
+            searchInput.addEventListener('input', function() {
+                const term = this.value.toLowerCase().trim();
+                const items = document.querySelectorAll('.faq-item');
+
+                items.forEach(item => {
+                    const question = item.querySelector('.faq-question')?.textContent.toLowerCase() || '';
+                    const answer = item.querySelector('.faq-answer')?.textContent.toLowerCase() || '';
+                    const matched = question.includes(term) || answer.includes(term);
+                    item.style.display = matched ? '' : 'none';
+                });
+
+                // Optionally hide empty categories
+                document.querySelectorAll('.faq-category').forEach(cat => {
+                    const visibleItems = cat.querySelectorAll('.faq-item[style*="display: none"]');
+                    const totalItems = cat.querySelectorAll('.faq-item');
+                    if (visibleItems.length === totalItems.length) {
+                        cat.style.display = 'none';
+                    } else {
+                        cat.style.display = '';
+                    }
+                });
+            });
+
+            // Close mobile on outside click
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !menuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
+```
