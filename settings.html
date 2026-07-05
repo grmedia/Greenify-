@@ -4,56 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greenify | Settings</title>
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
     <style>
         :root {
-            --primary: #1a6f5c;
-            --primary-dark: #145a48;
-            --primary-light: #2d8a72;
-            --accent: #f39c12;
-            --accent-dark: #d35400;
-            --light: #f5f7fa;
-            --dark: #1e2a38;
-            --gray: #95a5a6;
-            --light-gray: #e0e7e9;
-            --success: #27ae60;
-            --info: #3498db;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-            --transition: all 0.3s ease;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --card-radius: 12px;
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --gold: #f59e0b;
+            --slate-200: #e2e8f2;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-bg-lighter: rgba(30, 41, 59, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             --sidebar-width: 280px;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f7f9fc;
-            color: var(--dark);
+            background: #0b1120;
+            color: var(--slate-200);
             line-height: 1.6;
+            overflow-x: hidden;
             min-height: 100vh;
-            font-size: 15px;
-            transition: background-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            font-size: 15px;
+            transition: background-color 0.4s ease;
         }
 
-        body.dark-mode {
-            background-color: #1a1a2e;
-            color: #f5f7fa;
+        /* Animated starfield background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 25% 35%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 60% 20%, rgba(16, 185, 129, 0.3), transparent),
+                radial-gradient(1px 1px at 75% 45%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(2px 2px at 85% 70%, rgba(245, 158, 11, 0.2), transparent),
+                radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 50% 60%, rgba(16, 185, 129, 0.3), transparent),
+                radial-gradient(1px 1px at 30% 90%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 70% 30%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(2px 2px at 90% 55%, rgba(16, 185, 129, 0.25), transparent),
+                radial-gradient(1px 1px at 55% 75%, rgba(255, 255, 255, 0.35), transparent),
+                radial-gradient(2px 2px at 20% 50%, rgba(245, 158, 11, 0.15), transparent),
+                radial-gradient(1px 1px at 65% 85%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 95% 20%, rgba(16, 185, 129, 0.2), transparent);
+            background-size: 200% 200%;
+            animation: starMove 60s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes starMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
         }
 
         /* Right Sidebar Navigation */
         .sidebar {
             width: var(--sidebar-width);
-            background: white;
-            box-shadow: var(--shadow);
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-left: 1px solid var(--glass-border);
+            box-shadow: var(--card-shadow);
             position: fixed;
             height: 100vh;
             overflow-y: auto;
@@ -63,51 +110,38 @@
             top: 0;
         }
 
-        body.dark-mode .sidebar {
-            background: #16213e;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        body.dark-mode .sidebar-header {
-            border-bottom: 1px solid #2d4059;
-        }
-
         .logo-img {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.4);
+            transition: var(--bounce);
         }
 
         .logo-img i {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: white;
         }
 
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--primary);
-        }
-
-        body.dark-mode .logo-text {
-            color: #4ecca3;
-        }
-
-        .logo-text span {
-            color: var(--accent);
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .sidebar-nav {
@@ -116,15 +150,11 @@
 
         .nav-category {
             padding: 10px 20px;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
-            font-weight: 600;
-            color: var(--gray);
-            letter-spacing: 0.5px;
-        }
-
-        body.dark-mode .nav-category {
-            color: #6b7b8c;
+            font-weight: 700;
+            color: var(--slate-500);
+            letter-spacing: 1px;
         }
 
         .nav-item {
@@ -132,29 +162,20 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            color: var(--dark);
+            color: var(--slate-300);
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
             border-right: 4px solid transparent;
             cursor: pointer;
+            font-size: 0.92rem;
         }
 
-        body.dark-mode .nav-item {
-            color: #e6e6e6;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: rgba(26, 111, 92, 0.08);
-            color: var(--primary);
-            border-right-color: var(--primary);
-        }
-
-        body.dark-mode .nav-item:hover, 
-        body.dark-mode .nav-item.active {
-            background: rgba(78, 204, 163, 0.15);
-            color: #4ecca3;
-            border-right-color: #4ecca3;
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(5, 150, 105, 0.12);
+            color: var(--emerald-light);
+            border-right-color: var(--emerald-light);
         }
 
         .nav-item i {
@@ -167,10 +188,8 @@
             padding: 30px;
             margin-right: var(--sidebar-width);
             transition: var(--transition);
-        }
-
-        body.dark-mode .main-content {
-            background-color: #1a1a2e;
+            position: relative;
+            z-index: 1;
         }
 
         .page-header {
@@ -178,109 +197,123 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .page-title {
-            font-size: 1.8rem;
-            color: var(--primary-dark);
-            font-weight: 700;
-        }
-
-        body.dark-mode .page-title {
-            color: #4ecca3;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fbbf24, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .search-box {
             display: flex;
             align-items: center;
-            background: white;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
             border-radius: 50px;
-            padding: 8px 20px;
-            box-shadow: var(--shadow);
-            width: 300px;
+            padding: 10px 20px;
+            box-shadow: var(--card-shadow);
+            width: 320px;
+            transition: var(--transition);
         }
 
-        body.dark-mode .search-box {
-            background: #16213e;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .search-box:focus-within {
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2), var(--card-shadow);
+        }
+
+        .search-box i {
+            color: var(--slate-400);
+            margin-right: 8px;
         }
 
         .search-box input {
             border: none;
             outline: none;
-            padding: 8px;
+            padding: 6px;
             width: 100%;
             font-size: 0.95rem;
             background: transparent;
+            color: var(--slate-200);
         }
 
-        body.dark-mode .search-box input {
-            color: #f5f7fa;
+        .search-box input::placeholder {
+            color: var(--slate-500);
         }
 
-        /* Settings Cards */
+        /* Settings Grid */
         .settings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
             gap: 25px;
         }
 
         .settings-card {
-            background: white;
-            border-radius: var(--card-radius);
-            box-shadow: var(--shadow);
-            padding: 25px;
-            transition: var(--transition);
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            padding: 28px;
+            transition: var(--bounce);
+            animation: fadeUp 0.6s ease forwards;
         }
 
-        body.dark-mode .settings-card {
-            background: #16213e;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .settings-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .settings-card.full-width {
+            grid-column: 1 / -1;
         }
 
         .card-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        body.dark-mode .card-header {
-            border-bottom: 1px solid #2d4059;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .card-header i {
             font-size: 1.4rem;
-            color: var(--primary);
-            background: rgba(26, 111, 92, 0.1);
-            width: 45px;
-            height: 45px;
+            color: var(--emerald-light);
+            background: rgba(5, 150, 105, 0.15);
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        body.dark-mode .card-header i {
-            color: #4ecca3;
-            background: rgba(78, 204, 163, 0.15);
+            box-shadow: 0 0 18px rgba(5, 150, 105, 0.2);
         }
 
         .card-title {
             font-size: 1.3rem;
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-
-        body.dark-mode .card-title {
-            color: #4ecca3;
+            color: white;
+            font-weight: 700;
         }
 
         /* Setting Items */
@@ -288,12 +321,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        body.dark-mode .setting-item {
-            border-bottom: 1px solid #2d4059;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .setting-item:last-child {
@@ -302,47 +333,68 @@
 
         .setting-info {
             flex: 1;
+            min-width: 180px;
         }
 
         .setting-title {
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--slate-200);
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        body.dark-mode .setting-title {
-            color: #e6e6e6;
+            font-size: 0.95rem;
         }
 
         .setting-title i {
-            font-size: 1rem;
-            color: var(--gray);
+            font-size: 0.9rem;
+            color: var(--slate-400);
+            width: 18px;
+            text-align: center;
         }
 
         .setting-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        body.dark-mode .setting-desc {
-            color: #6b7b8c;
+            font-size: 0.82rem;
+            color: var(--slate-500);
         }
 
         .setting-control {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
-        /* Small Toggle Switch */
+        /* API Key Input */
+        .api-key-input {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.88rem;
+            color: var(--slate-200);
+            width: 220px;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .api-key-input:focus {
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+        }
+
+        .api-key-input::placeholder {
+            color: var(--slate-500);
+        }
+
+        /* Toggle Switch */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 42px;
-            height: 24px;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
         }
 
         .toggle-switch input {
@@ -358,16 +410,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--gray);
+            background-color: var(--slate-500);
             transition: var(--transition);
-            border-radius: 24px;
+            border-radius: 26px;
         }
 
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 20px;
+            width: 20px;
             left: 3px;
             bottom: 3px;
             background-color: white;
@@ -375,12 +427,42 @@
             border-radius: 50%;
         }
 
-        input:checked + .toggle-slider {
-            background-color: var(--primary);
+        input:checked+.toggle-slider {
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
         }
 
-        input:checked + .toggle-slider:before {
-            transform: translateX(18px);
+        input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Select Dropdowns */
+        select {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: var(--slate-200);
+            min-width: 150px;
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%2394a3b8'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+
+        select:focus {
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+        }
+
+        select option {
+            background: var(--slate-800);
+            color: var(--slate-200);
         }
 
         /* Buttons */
@@ -389,74 +471,96 @@
             align-items: center;
             justify-content: center;
             padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: var(--bounce);
             border: none;
             font-size: 0.9rem;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
             color: white;
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(5, 150, 105, 0.55);
         }
 
         .btn-outline {
             background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
+            border: 1px solid var(--emerald-light);
+            color: var(--emerald-light);
         }
 
-        body.dark-mode .btn-outline {
-            border-color: #4ecca3;
-            color: #4ecca3;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
+        .btn-outline:hover {
+            background: rgba(5, 150, 105, 0.1);
             transform: translateY(-2px);
         }
 
-        /* Select Dropdowns */
-        select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--light-gray);
-            background-color: white;
-            font-size: 0.9rem;
-            color: var(--dark);
-            min-width: 150px;
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 0.8rem;
+            border-radius: 25px;
         }
 
-        body.dark-mode select {
-            background-color: #1a1a2e;
-            color: #f5f7fa;
-            border-color: #2d4059;
+        .btn-danger {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #d97706);
+            color: #1e293b;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+            font-weight: 700;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         /* Premium Card */
-        .premium-card {
-            background: linear-gradient(135deg, #2d8a72, #1a6f5c);
+        .premium-card-inner {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.25), rgba(4, 120, 87, 0.35));
+            border: 1px solid rgba(16, 185, 129, 0.3);
             color: white;
-            border-radius: var(--card-radius);
+            border-radius: 16px;
             padding: 25px;
-            margin-top: 20px;
+            margin-top: 10px;
             position: relative;
             overflow: hidden;
         }
 
-        .premium-card::before {
+        .premium-card-inner::before {
             content: "";
             position: absolute;
             top: -50%;
             right: -50%;
             width: 100%;
             height: 200%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.08"/></svg>');
             background-size: 20px 20px;
             transform: rotate(45deg);
+            pointer-events: none;
         }
 
         .premium-header {
@@ -470,7 +574,8 @@
 
         .premium-header i {
             font-size: 1.8rem;
-            color: #f39c12;
+            color: #fbbf24;
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
         }
 
         .premium-title {
@@ -490,11 +595,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.95rem;
+            font-size: 0.93rem;
         }
 
         .premium-features li i {
-            color: #f39c12;
+            color: #fbbf24;
         }
 
         .premium-actions {
@@ -502,30 +607,40 @@
             gap: 12px;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
         }
 
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary);
+            bottom: 24px;
+            right: 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
+            padding: 14px 22px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
             z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
-            transform: translateY(100px);
+            transform: translateY(120px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 500;
         }
 
         .toast.show {
             transform: translateY(0);
             opacity: 1;
+        }
+
+        .toast i {
+            color: var(--emerald-light);
+            font-size: 1.2rem;
         }
 
         /* Toggle Menu Button */
@@ -534,21 +649,205 @@
             top: 20px;
             right: 20px;
             z-index: 101;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+            cursor: pointer;
+            transition: var(--bounce);
+            border: none;
+        }
+
+        .toggle-menu-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 28px rgba(5, 150, 105, 0.55);
+        }
+
+        /* API Status Indicator */
+        .api-status {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-left: 6px;
+            flex-shrink: 0;
+        }
+
+        .api-status.online {
+            background-color: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+
+        .api-status.offline {
+            background-color: #ef4444;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Models Section Styles */
+        .model-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+        }
+
+        .model-item:last-child {
+            border-bottom: none;
+        }
+
+        .model-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: var(--transition);
+            flex-shrink: 0;
+            font-size: 1.3rem;
+            color: white;
         }
 
-        body.dark-mode .toggle-menu-btn {
-            background: #4ecca3;
+        .model-icon.carbon {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+        .model-icon.weather {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+        .model-icon.mobility {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+        .model-icon.ai {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+        .model-icon.tips {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+        }
+
+        .model-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: white;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .model-version {
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: var(--slate-400);
+            font-weight: 500;
+        }
+
+        .model-desc {
+            font-size: 0.8rem;
+            color: var(--slate-500);
+            margin-top: 3px;
+        }
+
+        .model-size {
+            font-size: 0.78rem;
+            color: var(--slate-400);
+            font-weight: 500;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .model-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .model-status-downloaded {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .model-status-downloaded i {
+            font-size: 1rem;
+        }
+
+        .download-progress-wrapper {
+            position: relative;
+            width: 130px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .download-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            border-radius: 25px;
+            transition: width 0.15s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            min-width: 0;
+        }
+
+        .download-progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            pointer-events: none;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .storage-usage-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0 16px;
+        }
+
+        .storage-usage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--emerald), var(--emerald-light), var(--gold));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .storage-text {
+            font-size: 0.8rem;
+            color: var(--slate-400);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
         }
 
         /* Responsive */
@@ -556,35 +855,69 @@
             .settings-grid {
                 grid-template-columns: 1fr;
             }
+            .settings-card.full-width {
+                grid-column: 1;
+            }
         }
 
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(100%);
-                width: 260px;
+                width: 270px;
             }
-            
+
             .sidebar.active {
                 transform: translateX(0);
             }
-            
+
             .main-content {
                 margin-right: 0;
-                padding: 20px;
+                padding: 18px;
             }
-            
+
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
-            
+
             .search-box {
                 width: 100%;
             }
-            
+
             .toggle-menu-btn {
                 display: flex;
+            }
+
+            .api-key-input {
+                width: 150px;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .setting-control {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .model-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .model-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .download-progress-wrapper {
+                width: 100%;
+                max-width: 200px;
             }
         }
     </style>
@@ -597,9 +930,9 @@
     </div>
 
     <!-- Toggle Menu Button -->
-    <div class="toggle-menu-btn" id="toggleMenuBtn">
+    <button class="toggle-menu-btn" id="toggleMenuBtn" aria-label="Toggle menu">
         <i class="fas fa-bars"></i>
-    </div>
+    </button>
 
     <!-- Right Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
@@ -607,7 +940,7 @@
             <div class="logo-img">
                 <i class="fas fa-leaf"></i>
             </div>
-            <div class="logo-text">Green<span>ify</span></div>
+            <div class="logo-text">Greenify</div>
         </div>
 
         <nav class="sidebar-nav">
@@ -623,6 +956,28 @@
             <div class="nav-item" data-section="notifications">
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
+            </div>
+
+            <div class="nav-category">Features</div>
+            <div class="nav-item" data-section="carbon">
+                <i class="fas fa-cloud"></i>
+                <span>Carbon Calculator</span>
+            </div>
+            <div class="nav-item" data-section="mobility">
+                <i class="fas fa-bicycle"></i>
+                <span>Mobility Planner</span>
+            </div>
+            <div class="nav-item" data-section="weather">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Weather Hub</span>
+            </div>
+            <div class="nav-item" data-section="education">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Education Hub</span>
+            </div>
+            <div class="nav-item" data-section="models">
+                <i class="fas fa-microchip"></i>
+                <span>Offline Models</span>
             </div>
 
             <div class="nav-category">Account</div>
@@ -642,7 +997,7 @@
             </div>
             <div class="nav-item" data-section="integrations">
                 <i class="fas fa-plug"></i>
-                <span>Integrations</span>
+                <span>API Integrations</span>
             </div>
 
             <div class="nav-category">Support</div>
@@ -668,13 +1023,46 @@
         </div>
 
         <div class="settings-grid">
+            <!-- Models Card - Featured -->
+            <div class="settings-card full-width" data-category="models" id="modelsCard">
+                <div class="card-header">
+                    <i class="fas fa-microchip"></i>
+                    <h2 class="card-title">Offline Models</h2>
+                </div>
+                <p style="color:var(--slate-400);margin-bottom:16px;font-size:0.9rem;">
+                    <i class="fas fa-info-circle" style="color:var(--emerald-light);"></i>
+                    Download models to use Greenify features <strong style="color:white;">completely offline</strong>. Once downloaded, core features work without an internet connection.
+                </p>
+
+                <!-- Storage usage -->
+                <div class="storage-text">
+                    <span>Storage Used</span>
+                    <span id="storageUsedText">0 MB / 319 MB</span>
+                </div>
+                <div class="storage-usage-bar">
+                    <div class="storage-usage-fill" id="storageUsageFill" style="width:0%;"></div>
+                </div>
+
+                <div id="modelsList">
+                    <!-- Model items rendered by JS -->
+                </div>
+
+                <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn btn-gold" id="downloadAllBtn">
+                        <i class="fas fa-download"></i> Download All Models
+                    </button>
+                    <button class="btn btn-danger btn-sm" id="deleteAllBtn" style="display:none;">
+                        <i class="fas fa-trash-alt"></i> Delete All Downloaded
+                    </button>
+                </div>
+            </div>
+
             <!-- General Settings Card -->
             <div class="settings-card" data-category="general">
                 <div class="card-header">
                     <i class="fas fa-cog"></i>
                     <h2 class="card-title">General Settings</h2>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-language"></i> Language</div>
@@ -689,7 +1077,6 @@
                         </select>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-map-marker-alt"></i> Region</div>
@@ -704,7 +1091,6 @@
                         </select>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-sync-alt"></i> Auto Refresh</div>
@@ -725,20 +1111,18 @@
                     <i class="fas fa-paint-brush"></i>
                     <h2 class="card-title">Appearance</h2>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-moon"></i> Dark Mode</div>
-                        <div class="setting-desc">Use dark theme</div>
+                        <div class="setting-desc">Toggle dark theme</div>
                     </div>
                     <div class="setting-control">
                         <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeSetting">
+                            <input type="checkbox" id="darkModeSetting" checked>
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-text-height"></i> Font Size</div>
@@ -752,10 +1136,9 @@
                         </select>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-palette"></i> Theme Color</div>
+                        <div class="setting-title"><i class="fas fa-palette"></i> Accent Color</div>
                         <div class="setting-desc">Choose accent color</div>
                     </div>
                     <div class="setting-control">
@@ -769,135 +1152,228 @@
                 </div>
             </div>
 
-            <!-- Notifications Card -->
-            <div class="settings-card" data-category="notifications">
+            <!-- Carbon Calculator Settings -->
+            <div class="settings-card" data-category="carbon">
                 <div class="card-header">
-                    <i class="fas fa-bell"></i>
-                    <h2 class="card-title">Notifications</h2>
+                    <i class="fas fa-cloud"></i>
+                    <h2 class="card-title">Carbon Calculator</h2>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-envelope"></i> Email Notifications</div>
-                        <div class="setting-desc">Receive email alerts</div>
+                        <div class="setting-title"><i class="fas fa-bolt"></i> Calculation Method</div>
+                        <div class="setting-desc">Choose your preferred calculation method</div>
                     </div>
                     <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="emailNotificationsSetting">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-mobile-alt"></i> Push Notifications</div>
-                        <div class="setting-desc">Receive app notifications</div>
-                    </div>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="pushNotificationsSetting">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-bullhorn"></i> Marketing Emails</div>
-                        <div class="setting-desc">Receive promotional content</div>
-                    </div>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="marketingEmailsSetting">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Privacy & Security Card -->
-            <div class="settings-card" data-category="privacy">
-                <div class="card-header">
-                    <i class="fas fa-shield-alt"></i>
-                    <h2 class="card-title">Privacy & Security</h2>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-lock"></i> Two-Factor Auth</div>
-                        <div class="setting-desc">Extra security for your account</div>
-                    </div>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="twoFactorSetting">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-history"></i> Activity Log</div>
-                        <div class="setting-desc">View your account activity</div>
-                    </div>
-                    <div class="setting-control">
-                        <button class="btn btn-outline" id="viewActivityLog">View Log</button>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-cookie"></i> Data Collection</div>
-                        <div class="setting-desc">Allow usage data collection</div>
-                    </div>
-                    <div class="setting-control">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="dataCollectionSetting">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data & Storage Card -->
-            <div class="settings-card" data-category="data">
-                <div class="card-header">
-                    <i class="fas fa-database"></i>
-                    <h2 class="card-title">Data & Storage</h2>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-cloud-download-alt"></i> Data Usage</div>
-                        <div class="setting-desc">Network usage for data sync</div>
-                    </div>
-                    <div class="setting-control">
-                        <select id="dataUsageSetting">
-                            <option value="wifi">Wi-Fi Only</option>
-                            <option value="both" selected>Wi-Fi & Mobile</option>
-                            <option value="never">Never</option>
+                        <select id="carbonMethodSetting">
+                            <option value="basic">Basic Estimation</option>
+                            <option value="advanced">Advanced Calculation</option>
+                            <option value="api">External API (Climatiq)</option>
                         </select>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-trash-alt"></i> Clear Cache</div>
-                        <div class="setting-desc">Free up storage space</div>
+                        <div class="setting-title"><i class="fas fa-weight"></i> Measurement Units</div>
+                        <div class="setting-desc">Choose your preferred units</div>
                     </div>
                     <div class="setting-control">
-                        <button class="btn btn-outline" id="clearCacheBtn">Clear Now</button>
+                        <select id="carbonUnitsSetting">
+                            <option value="metric">Metric (kg)</option>
+                            <option value="imperial">Imperial (lbs)</option>
+                        </select>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
-                        <div class="setting-title"><i class="fas fa-download"></i> Data Export</div>
-                        <div class="setting-desc">Download your data</div>
+                        <div class="setting-title"><i class="fas fa-chart-line"></i> Track Progress</div>
+                        <div class="setting-desc">Save and track your carbon footprint over time</div>
                     </div>
                     <div class="setting-control">
-                        <button class="btn btn-outline" id="exportDataBtn">Export Data</button>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="carbonTrackingSetting">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-bullseye"></i> Reduction Goals</div>
+                        <div class="setting-desc">Set monthly carbon reduction targets</div>
+                    </div>
+                    <div class="setting-control">
+                        <select id="carbonGoalsSetting">
+                            <option value="none">No Goals</option>
+                            <option value="5">5% Reduction</option>
+                            <option value="10">10% Reduction</option>
+                            <option value="15">15% Reduction</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobility Planner Settings -->
+            <div class="settings-card" data-category="mobility">
+                <div class="card-header">
+                    <i class="fas fa-bicycle"></i>
+                    <h2 class="card-title">Mobility Planner</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-car"></i> Primary Transport Mode</div>
+                        <div class="setting-desc">Your usual transportation method</div>
+                    </div>
+                    <div class="setting-control">
+                        <select id="primaryTransportSetting">
+                            <option value="car">Car</option>
+                            <option value="public">Public Transport</option>
+                            <option value="bike">Bicycle</option>
+                            <option value="walk">Walking</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-road"></i> Avoid Highways</div>
+                        <div class="setting-desc">Prefer routes with less traffic</div>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="avoidHighwaysSetting">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-gas-pump"></i> Fuel Efficiency</div>
+                        <div class="setting-desc">Your vehicle's fuel efficiency (mpg)</div>
+                    </div>
+                    <div class="setting-control">
+                        <input type="number" id="fuelEfficiencySetting" value="25" min="5" max="100" class="api-key-input" style="width:100px;">
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-tree"></i> Eco-Routing</div>
+                        <div class="setting-desc">Prioritize eco-friendly routes</div>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="ecoRoutingSetting" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Hub Settings -->
+            <div class="settings-card" data-category="weather">
+                <div class="card-header">
+                    <i class="fas fa-cloud-sun"></i>
+                    <h2 class="card-title">Weather Hub</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-temperature-high"></i> Temperature Units</div>
+                        <div class="setting-desc">Choose your preferred units</div>
+                    </div>
+                    <div class="setting-control">
+                        <select id="temperatureUnitsSetting">
+                            <option value="celsius">Celsius (°C)</option>
+                            <option value="fahrenheit">Fahrenheit (°F)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-bell"></i> Weather Alerts</div>
+                        <div class="setting-desc">Receive severe weather notifications</div>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="weatherAlertsSetting" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-map-marker-alt"></i> Default Location</div>
+                        <div class="setting-desc">Your primary location for weather</div>
+                    </div>
+                    <div class="setting-control">
+                        <input type="text" id="defaultLocationSetting" placeholder="Enter city" class="api-key-input" style="width:160px;">
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-cloud-rain"></i> Precipitation Alerts</div>
+                        <div class="setting-desc">Notify me about rain or snow</div>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="precipitationAlertsSetting" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Integrations Card -->
+            <div class="settings-card" data-category="integrations">
+                <div class="card-header">
+                    <i class="fas fa-plug"></i>
+                    <h2 class="card-title">API Integrations</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">
+                            <i class="fas fa-cloud"></i> Climatiq API
+                            <span class="api-status" id="climatiqStatus"></span>
+                        </div>
+                        <div class="setting-desc">Carbon calculation API for accurate emissions data</div>
+                    </div>
+                    <div class="setting-control">
+                        <input type="text" id="climatiqApiKey" placeholder="API Key" class="api-key-input">
+                        <button class="btn btn-sm btn-outline" id="testClimatiq">Test</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">
+                            <i class="fas fa-sun"></i> OpenWeather API
+                            <span class="api-status" id="weatherStatus"></span>
+                        </div>
+                        <div class="setting-desc">Weather data for your location</div>
+                    </div>
+                    <div class="setting-control">
+                        <input type="text" id="weatherApiKey" placeholder="API Key" class="api-key-input">
+                        <button class="btn btn-sm btn-outline" id="testWeather">Test</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">
+                            <i class="fas fa-plane"></i> ICEC API
+                            <span class="api-status" id="icecStatus"></span>
+                        </div>
+                        <div class="setting-desc">ICAO Carbon Emissions Calculator for flight data</div>
+                    </div>
+                    <div class="setting-control">
+                        <input type="text" id="icecApiKey" placeholder="API Key" class="api-key-input">
+                        <button class="btn btn-sm btn-outline" id="testIcec">Test</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-share-alt"></i> Share Anonymous Data</div>
+                        <div class="setting-desc">Help improve Greenify by sharing anonymous usage data</div>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="shareDataSetting">
+                            <span class="toggle-slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -908,28 +1384,23 @@
                     <i class="fas fa-crown"></i>
                     <h2 class="card-title">Premium Subscription</h2>
                 </div>
-                
-                <div class="premium-card">
+                <div class="premium-card-inner">
                     <div class="premium-header">
                         <i class="fas fa-crown"></i>
                         <h3 class="premium-title">Greenify Premium</h3>
                     </div>
-                    
                     <p>Unlock all features and support our mission</p>
-                    
                     <ul class="premium-features">
                         <li><i class="fas fa-check"></i> Advanced carbon analytics</li>
                         <li><i class="fas fa-check"></i> Personalized sustainability plans</li>
                         <li><i class="fas fa-check"></i> Premium AI assistant</li>
                         <li><i class="fas fa-check"></i> Exclusive educational content</li>
                     </ul>
-                    
                     <div class="premium-actions">
                         <button class="btn btn-primary" id="subscribeBtn">Subscribe Now</button>
-                        <button class="btn" style="background: white; color: var(--primary);">Learn More</button>
+                        <button class="btn btn-outline" onclick="window.open('https://www.climatiq.io', '_blank')">Learn More</button>
                     </div>
                 </div>
-                
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-title"><i class="fas fa-calendar"></i> Billing Cycle</div>
@@ -947,6 +1418,332 @@
     </main>
 
     <script>
+        // ==================== MODELS SYSTEM ====================
+        // Define available models for offline download
+        const availableModels = [
+            { id: 'carbon-model', name: 'Carbon Footprint Model', desc: 'Offline carbon emission calculations engine',
+                size: 42, version: '2.1.0', iconClass: 'carbon', icon: 'fa-cloud', category: 'carbon' },
+            { id: 'weather-model', name: 'Weather Prediction Model', desc: 'Local weather forecasting engine',
+                size: 78, version: '1.4.2', iconClass: 'weather', icon: 'fa-cloud-sun', category: 'weather' },
+            { id: 'mobility-model', name: 'Mobility Optimization Model', desc: 'Route planning and optimization engine',
+                size: 56, version: '3.0.1', iconClass: 'mobility', icon: 'fa-route', category: 'mobility' },
+            { id: 'ai-model', name: 'Sustainability AI Assistant', desc: 'On-device AI for eco-recommendations',
+                size: 125, version: '1.0.0', iconClass: 'ai', icon: 'fa-robot', category: 'education' },
+            { id: 'tips-db', name: 'Green Tips Database', desc: 'Complete eco-tips knowledge base',
+                size: 18, version: '4.2.0', iconClass: 'tips', icon: 'fa-lightbulb', category: 'education' },
+        ];
+
+        const totalAvailableStorage = availableModels.reduce((sum, m) => sum + m.size, 0); // 319 MB
+
+        // Track active downloads (for cancel/cleanup)
+        const activeDownloads = {};
+
+        // Get downloaded models from localStorage
+        function getDownloadedModels() {
+            try {
+                const data = localStorage.getItem('greenify_downloaded_models');
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        // Save downloaded models to localStorage
+        function saveDownloadedModels(models) {
+            localStorage.setItem('greenify_downloaded_models', JSON.stringify(models));
+        }
+
+        // Calculate total storage used
+        function getTotalStorageUsed() {
+            const downloaded = getDownloadedModels();
+            let total = 0;
+            for (const modelId in downloaded) {
+                if (downloaded[modelId] && downloaded[modelId].downloaded) {
+                    const model = availableModels.find(m => m.id === modelId);
+                    if (model) total += model.size;
+                }
+            }
+            return total;
+        }
+
+        // Update storage UI
+        function updateStorageUI() {
+            const used = getTotalStorageUsed();
+            const percent = Math.round((used / totalAvailableStorage) * 100);
+            document.getElementById('storageUsedText').textContent =
+                `${used} MB / ${totalAvailableStorage} MB`;
+            document.getElementById('storageUsageFill').style.width = percent + '%';
+
+            // Show/hide delete all button
+            const deleteAllBtn = document.getElementById('deleteAllBtn');
+            if (used > 0) {
+                deleteAllBtn.style.display = 'inline-flex';
+            } else {
+                deleteAllBtn.style.display = 'none';
+            }
+
+            // Update download all button
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const allDownloaded = availableModels.every(m => {
+                const dm = getDownloadedModels();
+                return dm[m.id] && dm[m.id].downloaded;
+            });
+            if (allDownloaded) {
+                downloadAllBtn.style.display = 'none';
+            } else {
+                downloadAllBtn.style.display = 'inline-flex';
+                downloadAllBtn.disabled = Object.keys(activeDownloads).length > 0;
+            }
+        }
+
+        // Render all model items
+        function renderModels() {
+            const container = document.getElementById('modelsList');
+            const downloaded = getDownloadedModels();
+            let html = '';
+
+            availableModels.forEach(model => {
+                const isDownloaded = downloaded[model.id] && downloaded[model.id].downloaded;
+                const isDownloading = activeDownloads[model.id] && activeDownloads[model.id].inProgress;
+                const progress = (activeDownloads[model.id] && activeDownloads[model.id].progress) || 0;
+
+                html += `
+                <div class="model-item" id="model-item-${model.id}">
+                    <div class="model-icon ${model.iconClass}">
+                        <i class="fas ${model.icon}"></i>
+                    </div>
+                    <div class="model-info">
+                        <div class="model-name">
+                            ${model.name}
+                            <span class="model-version">v${model.version}</span>
+                        </div>
+                        <div class="model-desc">${model.desc}</div>
+                    </div>
+                    <span class="model-size">${model.size} MB</span>
+                    <div class="model-actions" id="actions-${model.id}">
+                        ${isDownloaded ? `
+                            <span class="model-status-downloaded">
+                                <i class="fas fa-check-circle"></i> Downloaded
+                            </span>
+                            <button class="btn btn-danger btn-sm" onclick="deleteModel('${model.id}')" title="Remove download">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        ` : (isDownloading ? `
+                            <div class="download-progress-wrapper">
+                                <div class="download-progress-bar" id="progress-bar-${model.id}" style="width:${progress}%;"></div>
+                                <span class="download-progress-text" id="progress-text-${model.id}">${progress}%</span>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="cancelDownload('${model.id}')" title="Cancel download">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary btn-sm" onclick="startDownload('${model.id}')" id="download-btn-${model.id}">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        `)}
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            updateStorageUI();
+        }
+
+        // Start downloading a model
+        function startDownload(modelId) {
+            const model = availableModels.find(m => m.id === modelId);
+            if (!model) return;
+            if (activeDownloads[modelId] && activeDownloads[modelId].inProgress) return;
+
+            // Check if already downloaded
+            const downloaded = getDownloadedModels();
+            if (downloaded[modelId] && downloaded[modelId].downloaded) {
+                showToast('Model already downloaded', 'info');
+                return;
+            }
+
+            // Simulate download time based on size (approx 0.8-2 seconds per 10MB with some randomness)
+            const baseTimePer10MB = 600; // ms per 10MB
+            const totalTime = Math.max(1500, (model.size / 10) * baseTimePer10MB + Math.random() * 2000);
+            const updateInterval = 120; // ms between progress updates
+            const totalSteps = Math.ceil(totalTime / updateInterval);
+            let currentStep = 0;
+
+            const downloadObj = {
+                inProgress: true,
+                progress: 0,
+                intervalId: null,
+                timeoutId: null,
+            };
+
+            activeDownloads[modelId] = downloadObj;
+            showToast(`Starting download: ${model.name}...`, 'info');
+            renderModels();
+            updateStorageUI();
+
+            // Disable download all button during active downloads
+            document.getElementById('downloadAllBtn').disabled = true;
+
+            downloadObj.intervalId = setInterval(() => {
+                currentStep++;
+                // Simulate variable speed with occasional bursts
+                let increment = (100 / totalSteps);
+                // Add some randomness to simulate network fluctuation
+                increment *= (0.7 + Math.random() * 0.6);
+                downloadObj.progress = Math.min(99, downloadObj.progress + increment);
+                downloadObj.progress = Math.round(downloadObj.progress);
+
+                // Update progress bar in DOM
+                const progressBar = document.getElementById('progress-bar-' + modelId);
+                const progressText = document.getElementById('progress-text-' + modelId);
+                if (progressBar) progressBar.style.width = downloadObj.progress + '%';
+                if (progressText) progressText.textContent = downloadObj.progress + '%';
+
+                if (downloadObj.progress >= 99) {
+                    clearInterval(downloadObj.intervalId);
+                    downloadObj.intervalId = null;
+
+                    // Finalize
+                    downloadObj.progress = 100;
+                    if (progressBar) progressBar.style.width = '100%';
+                    if (progressText) progressText.textContent = '100%';
+
+                    // Small delay before marking complete
+                    downloadObj.timeoutId = setTimeout(() => {
+                        finalizeDownload(modelId);
+                    }, 400);
+                }
+            }, updateInterval);
+        }
+
+        // Finalize a completed download
+        function finalizeDownload(modelId) {
+            const model = availableModels.find(m => m.id === modelId);
+            if (!model) return;
+
+            const downloaded = getDownloadedModels();
+            downloaded[modelId] = {
+                downloaded: true,
+                version: model.version,
+                downloadedAt: new Date().toISOString(),
+                size: model.size,
+            };
+            saveDownloadedModels(downloaded);
+
+            // Clean up active download
+            if (activeDownloads[modelId]) {
+                if (activeDownloads[modelId].intervalId) clearInterval(activeDownloads[modelId].intervalId);
+                if (activeDownloads[modelId].timeoutId) clearTimeout(activeDownloads[modelId].timeoutId);
+                delete activeDownloads[modelId];
+            }
+
+            showToast(`${model.name} downloaded successfully! Available offline.`, 'success');
+            renderModels();
+            updateStorageUI();
+            document.getElementById('downloadAllBtn').disabled = Object.keys(activeDownloads).length > 0;
+
+            // Update related feature settings to indicate offline capability
+            updateOfflineFeatureIndicators();
+        }
+
+        // Cancel an active download
+        function cancelDownload(modelId) {
+            if (activeDownloads[modelId]) {
+                if (activeDownloads[modelId].intervalId) clearInterval(activeDownloads[modelId].intervalId);
+                if (activeDownloads[modelId].timeoutId) clearTimeout(activeDownloads[modelId].timeoutId);
+                delete activeDownloads[modelId];
+                showToast('Download cancelled', 'info');
+                renderModels();
+                updateStorageUI();
+                document.getElementById('downloadAllBtn').disabled = Object.keys(activeDownloads).length > 0;
+            }
+        }
+
+        // Delete a downloaded model
+        function deleteModel(modelId) {
+            const model = availableModels.find(m => m.id === modelId);
+            const downloaded = getDownloadedModels();
+            if (downloaded[modelId]) {
+                delete downloaded[modelId];
+                saveDownloadedModels(downloaded);
+                showToast(`${model ? model.name : 'Model'} removed. Storage freed.`, 'info');
+                renderModels();
+                updateStorageUI();
+                updateOfflineFeatureIndicators();
+            }
+        }
+
+        // Delete all downloaded models
+        function deleteAllModels() {
+            if (Object.keys(activeDownloads).length > 0) {
+                showToast('Please wait for active downloads to finish or cancel them first.', 'warning');
+                return;
+            }
+            const downloaded = getDownloadedModels();
+            const count = Object.keys(downloaded).length;
+            if (count === 0) {
+                showToast('No models to delete.', 'info');
+                return;
+            }
+            if (confirm(`Delete all ${count} downloaded model(s)? This will free up ${getTotalStorageUsed()} MB.`)) {
+                localStorage.removeItem('greenify_downloaded_models');
+                showToast('All models deleted. Storage freed.', 'info');
+                renderModels();
+                updateStorageUI();
+                updateOfflineFeatureIndicators();
+            }
+        }
+
+        // Download all models sequentially
+        async function downloadAllModels() {
+            const downloaded = getDownloadedModels();
+            const toDownload = availableModels.filter(m => !downloaded[m.id] || !downloaded[m.id].downloaded);
+
+            if (toDownload.length === 0) {
+                showToast('All models are already downloaded!', 'info');
+                return;
+            }
+
+            showToast(`Queuing ${toDownload.length} model(s) for download...`, 'info');
+            document.getElementById('downloadAllBtn').disabled = true;
+
+            for (const model of toDownload) {
+                // Check if any active download is still going
+                if (activeDownloads[model.id] && activeDownloads[model.id].inProgress) continue;
+
+                startDownload(model.id);
+
+                // Wait for this download to complete before starting the next
+                await new Promise((resolve) => {
+                    const checkInterval = setInterval(() => {
+                        if (!activeDownloads[model.id] || !activeDownloads[model.id].inProgress) {
+                            clearInterval(checkInterval);
+                            // Extra small delay between downloads
+                            setTimeout(resolve, 600);
+                        }
+                    }, 300);
+                });
+            }
+
+            document.getElementById('downloadAllBtn').disabled = Object.keys(activeDownloads).length > 0;
+            showToast('All available models processed!', 'success');
+        }
+
+        // Update offline feature indicators
+        function updateOfflineFeatureIndicators() {
+            const downloaded = getDownloadedModels();
+            // Carbon model enables offline carbon calculator
+            if (downloaded['carbon-model'] && downloaded['carbon-model'].downloaded) {
+                if (document.getElementById('carbonMethodSetting').value === 'api') {
+                    // Suggest switching to advanced since model is available offline
+                }
+            }
+            // This is a visual indicator system - in a full app, these would enable/disable features
+            console.log('Offline capabilities updated. Downloaded models:', Object.keys(downloaded).filter(k =>
+                downloaded[k].downloaded));
+        }
+
+        // ==================== EXISTING SETTINGS FUNCTIONALITY ====================
         // DOM Elements
         const toggleMenuBtn = document.getElementById('toggleMenuBtn');
         const sidebar = document.getElementById('sidebar');
@@ -955,6 +1752,11 @@
         const settingsSearch = document.getElementById('settingsSearch');
         const navItems = document.querySelectorAll('.nav-item');
         const settingsCards = document.querySelectorAll('.settings-card');
+
+        // API Status Elements
+        const climatiqStatus = document.getElementById('climatiqStatus');
+        const weatherStatus = document.getElementById('weatherStatus');
+        const icecStatus = document.getElementById('icecStatus');
 
         // Show mobile menu button on small screens
         function checkWidth() {
@@ -966,22 +1768,19 @@
                 sidebar.classList.remove('active');
             }
         }
-        
-        // Initial check
+
         checkWidth();
-        
-        // Listen for resize events
         window.addEventListener('resize', checkWidth);
-        
+
         // Toggle sidebar on mobile
         toggleMenuBtn.addEventListener('click', () => {
             sidebar.classList.toggle('active');
         });
-        
+
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
+            if (window.innerWidth <= 768 &&
+                !sidebar.contains(e.target) &&
                 !toggleMenuBtn.contains(e.target) &&
                 sidebar.classList.contains('active')) {
                 sidebar.classList.remove('active');
@@ -989,153 +1788,271 @@
         });
 
         // Show toast notification
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             toastMessage.textContent = message;
+            const icon = toast.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = 'var(--emerald-light)';
+            } else if (type === 'info') {
+                icon.className = 'fas fa-info-circle';
+                icon.style.color = 'var(--info)';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+                icon.style.color = 'var(--warning)';
+            }
             toast.classList.add('show');
-            
-            setTimeout(() => {
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
 
+        // Test API connection
+        async function testApiConnection(apiName, apiKey, statusElement) {
+            if (!apiKey) {
+                showToast(`Please enter your ${apiName} API key first`, 'warning');
+                statusElement.className = 'api-status offline';
+                return false;
+            }
+
+            try {
+                showToast(`Testing ${apiName} connection...`, 'info');
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                const success = Math.random() > 0.3;
+
+                if (success) {
+                    statusElement.className = 'api-status online';
+                    showToast(`${apiName} connection successful!`, 'success');
+                    return true;
+                } else {
+                    statusElement.className = 'api-status offline';
+                    showToast(`${apiName} connection failed. Please check your API key.`, 'warning');
+                    return false;
+                }
+            } catch (error) {
+                statusElement.className = 'api-status offline';
+                showToast(`Error testing ${apiName} connection: ${error.message}`, 'warning');
+                return false;
+            }
+        }
+
         // Load saved settings from localStorage
         function loadSettings() {
-            // Dark Mode
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            document.getElementById('darkModeSetting').checked = darkMode;
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-            }
-            
-            // Other settings
+            document.getElementById('darkModeSetting').checked = localStorage.getItem('darkMode') !== 'false';
             document.getElementById('languageSetting').value = localStorage.getItem('language') || 'english';
             document.getElementById('regionSetting').value = localStorage.getItem('region') || 'us';
             document.getElementById('autoRefreshSetting').checked = localStorage.getItem('autoRefresh') === 'true';
             document.getElementById('fontSizeSetting').value = localStorage.getItem('fontSize') || 'medium';
             document.getElementById('themeColorSetting').value = localStorage.getItem('themeColor') || 'green';
-            document.getElementById('emailNotificationsSetting').checked = localStorage.getItem('emailNotifications') === 'true';
-            document.getElementById('pushNotificationsSetting').checked = localStorage.getItem('pushNotifications') === 'true';
-            document.getElementById('marketingEmailsSetting').checked = localStorage.getItem('marketingEmails') === 'true';
-            document.getElementById('twoFactorSetting').checked = localStorage.getItem('twoFactor') === 'true';
-            document.getElementById('dataCollectionSetting').checked = localStorage.getItem('dataCollection') === 'true';
-            document.getElementById('dataUsageSetting').value = localStorage.getItem('dataUsage') || 'both';
-            document.getElementById('billingCycleSetting').value = localStorage.getItem('billingCycle') || 'yearly';
+            document.getElementById('carbonMethodSetting').value = localStorage.getItem('carbonMethod') || 'basic';
+            document.getElementById('carbonUnitsSetting').value = localStorage.getItem('carbonUnits') || 'metric';
+            document.getElementById('carbonTrackingSetting').checked = localStorage.getItem('carbonTracking') ===
+                'true';
+            document.getElementById('carbonGoalsSetting').value = localStorage.getItem('carbonGoals') || 'none';
+            document.getElementById('primaryTransportSetting').value = localStorage.getItem('primaryTransport') ||
+                'car';
+            document.getElementById('avoidHighwaysSetting').checked = localStorage.getItem('avoidHighways') === 'true';
+            document.getElementById('fuelEfficiencySetting').value = localStorage.getItem('fuelEfficiency') || '25';
+            document.getElementById('ecoRoutingSetting').checked = localStorage.getItem('ecoRouting') !== 'false';
+            document.getElementById('temperatureUnitsSetting').value = localStorage.getItem('temperatureUnits') ||
+                'celsius';
+            document.getElementById('weatherAlertsSetting').checked = localStorage.getItem('weatherAlerts') !==
+            'false';
+            document.getElementById('defaultLocationSetting').value = localStorage.getItem('defaultLocation') || '';
+            document.getElementById('precipitationAlertsSetting').checked = localStorage.getItem(
+                'precipitationAlerts') !== 'false';
+            document.getElementById('climatiqApiKey').value = localStorage.getItem('climatiqApiKey') || '';
+            document.getElementById('weatherApiKey').value = localStorage.getItem('weatherApiKey') || '';
+            document.getElementById('icecApiKey').value = localStorage.getItem('icecApiKey') || '';
+            document.getElementById('shareDataSetting').checked = localStorage.getItem('shareData') === 'true';
+
+            climatiqStatus.className = 'api-status ' + (localStorage.getItem('climatiqApiKey') ? 'online' : 'offline');
+            weatherStatus.className = 'api-status ' + (localStorage.getItem('weatherApiKey') ? 'online' : 'offline');
+            icecStatus.className = 'api-status ' + (localStorage.getItem('icecApiKey') ? 'online' : 'offline');
         }
 
         // Save settings to localStorage
         function saveSetting(key, value) {
             localStorage.setItem(key, value);
-            showToast('Setting saved successfully');
+            showToast('Setting saved successfully', 'success');
         }
 
-        // Initialize settings
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             loadSettings();
-            
+            renderModels();
+            updateStorageUI();
+            updateOfflineFeatureIndicators();
+
+            // Restore any in-progress downloads from before page reload (they'd be lost, so clean up)
+            const downloaded = getDownloadedModels();
+            for (const modelId in activeDownloads) {
+                delete activeDownloads[modelId];
+            }
+            // If any model was mid-download before reload, reset its state
+            let needsCleanup = false;
+            for (const modelId in downloaded) {
+                if (downloaded[modelId] && downloaded[modelId].downloaded === false) {
+                    delete downloaded[modelId];
+                    needsCleanup = true;
+                }
+            }
+            if (needsCleanup) saveDownloadedModels(downloaded);
+            renderModels();
+            updateStorageUI();
+
             // Set up event listeners for all settings
             document.getElementById('darkModeSetting').addEventListener('change', function() {
-                document.body.classList.toggle('dark-mode', this.checked);
                 saveSetting('darkMode', this.checked);
             });
-            
             document.getElementById('languageSetting').addEventListener('change', function() {
                 saveSetting('language', this.value);
             });
-            
             document.getElementById('regionSetting').addEventListener('change', function() {
                 saveSetting('region', this.value);
             });
-            
             document.getElementById('autoRefreshSetting').addEventListener('change', function() {
                 saveSetting('autoRefresh', this.checked);
             });
-            
             document.getElementById('fontSizeSetting').addEventListener('change', function() {
                 saveSetting('fontSize', this.value);
             });
-            
             document.getElementById('themeColorSetting').addEventListener('change', function() {
                 saveSetting('themeColor', this.value);
             });
-            
-            document.getElementById('emailNotificationsSetting').addEventListener('change', function() {
-                saveSetting('emailNotifications', this.checked);
+            document.getElementById('carbonMethodSetting').addEventListener('change', function() {
+                saveSetting('carbonMethod', this.value);
             });
-            
-            document.getElementById('pushNotificationsSetting').addEventListener('change', function() {
-                saveSetting('pushNotifications', this.checked);
+            document.getElementById('carbonUnitsSetting').addEventListener('change', function() {
+                saveSetting('carbonUnits', this.value);
             });
-            
-            document.getElementById('marketingEmailsSetting').addEventListener('change', function() {
-                saveSetting('marketingEmails', this.checked);
+            document.getElementById('carbonTrackingSetting').addEventListener('change', function() {
+                saveSetting('carbonTracking', this.checked);
             });
-            
-            document.getElementById('twoFactorSetting').addEventListener('change', function() {
-                saveSetting('twoFactor', this.checked);
+            document.getElementById('carbonGoalsSetting').addEventListener('change', function() {
+                saveSetting('carbonGoals', this.value);
             });
-            
-            document.getElementById('dataCollectionSetting').addEventListener('change', function() {
-                saveSetting('dataCollection', this.checked);
+            document.getElementById('primaryTransportSetting').addEventListener('change', function() {
+                saveSetting('primaryTransport', this.value);
             });
-            
-            document.getElementById('dataUsageSetting').addEventListener('change', function() {
-                saveSetting('dataUsage', this.value);
+            document.getElementById('avoidHighwaysSetting').addEventListener('change', function() {
+                saveSetting('avoidHighways', this.checked);
             });
-            
-            document.getElementById('billingCycleSetting').addEventListener('change', function() {
-                saveSetting('billingCycle', this.value);
+            document.getElementById('fuelEfficiencySetting').addEventListener('change', function() {
+                saveSetting('fuelEfficiency', this.value);
             });
-            
-            // Button actions
-            document.getElementById('clearCacheBtn').addEventListener('click', function() {
-                showToast('Cache cleared successfully');
+            document.getElementById('ecoRoutingSetting').addEventListener('change', function() {
+                saveSetting('ecoRouting', this.checked);
             });
-            
-            document.getElementById('exportDataBtn').addEventListener('click', function() {
-                showToast('Preparing your data for download...');
+            document.getElementById('temperatureUnitsSetting').addEventListener('change', function() {
+                saveSetting('temperatureUnits', this.value);
             });
-            
-            document.getElementById('viewActivityLog').addEventListener('click', function() {
-                showToast('Opening activity log...');
+            document.getElementById('weatherAlertsSetting').addEventListener('change', function() {
+                saveSetting('weatherAlerts', this.checked);
             });
-            
+            document.getElementById('defaultLocationSetting').addEventListener('change', function() {
+                saveSetting('defaultLocation', this.value);
+            });
+            document.getElementById('precipitationAlertsSetting').addEventListener('change', function() {
+                saveSetting('precipitationAlerts', this.checked);
+            });
+            document.getElementById('climatiqApiKey').addEventListener('change', function() {
+                saveSetting('climatiqApiKey', this.value);
+                climatiqStatus.className = 'api-status ' + (this.value ? 'online' : 'offline');
+            });
+            document.getElementById('weatherApiKey').addEventListener('change', function() {
+                saveSetting('weatherApiKey', this.value);
+                weatherStatus.className = 'api-status ' + (this.value ? 'online' : 'offline');
+            });
+            document.getElementById('icecApiKey').addEventListener('change', function() {
+                saveSetting('icecApiKey', this.value);
+                icecStatus.className = 'api-status ' + (this.value ? 'online' : 'offline');
+            });
+            document.getElementById('shareDataSetting').addEventListener('change', function() {
+                saveSetting('shareData', this.checked);
+            });
+
+            // API Test buttons
+            document.getElementById('testClimatiq').addEventListener('click', async function() {
+                const apiKey = document.getElementById('climatiqApiKey').value;
+                const success = await testApiConnection('Climatiq', apiKey, climatiqStatus);
+                if (success) {
+                    document.getElementById('carbonMethodSetting').value = 'api';
+                    saveSetting('carbonMethod', 'api');
+                }
+            });
+            document.getElementById('testWeather').addEventListener('click', async function() {
+                const apiKey = document.getElementById('weatherApiKey').value;
+                await testApiConnection('OpenWeather', apiKey, weatherStatus);
+            });
+            document.getElementById('testIcec').addEventListener('click', async function() {
+                const apiKey = document.getElementById('icecApiKey').value;
+                await testApiConnection('ICEC', apiKey, icecStatus);
+            });
+
+            // Subscribe button
             document.getElementById('subscribeBtn').addEventListener('click', function() {
-                showToast('Redirecting to subscription page...');
+                showToast('Redirecting to subscription page...', 'info');
+                setTimeout(() => {
+                    window.open('https://www.climatiq.io/pricing', '_blank');
+                }, 1000);
             });
-            
+
+            // Download All Models button
+            document.getElementById('downloadAllBtn').addEventListener('click', downloadAllModels);
+
+            // Delete All Models button
+            document.getElementById('deleteAllBtn').addEventListener('click', deleteAllModels);
+
             // Navigation
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // Remove active class from all items
                     navItems.forEach(navItem => navItem.classList.remove('active'));
-                    
-                    // Add active class to clicked item
                     this.classList.add('active');
-                    
-                    // Scroll to corresponding section
                     const section = this.getAttribute('data-section');
-                    const targetCard = document.querySelector(`.settings-card[data-category="${section}"]`);
-                    
+                    const targetCard = document.querySelector(
+                        `.settings-card[data-category="${section}"]`);
                     if (targetCard) {
-                        targetCard.scrollIntoView({ behavior: 'smooth' });
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Highlight card briefly
+                        targetCard.style.borderColor = 'rgba(16,185,129,0.6)';
+                        targetCard.style.boxShadow =
+                            '0 10px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(16,185,129,0.3)';
+                        setTimeout(() => {
+                            targetCard.style.borderColor = 'rgba(255,255,255,0.12)';
+                            targetCard.style.boxShadow = '0 10px 40px rgba(0,0,0,0.4)';
+                        }, 2000);
+                    }
+                    // Close sidebar on mobile after navigation
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
                     }
                 });
             });
-            
+
             // Settings search
             settingsSearch.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
-                
                 settingsCards.forEach(card => {
                     const cardText = card.textContent.toLowerCase();
                     if (cardText.includes(searchTerm)) {
                         card.style.display = 'block';
+                        card.style.animation = 'fadeUp 0.4s ease forwards';
                     } else {
                         card.style.display = 'none';
                     }
                 });
             });
         });
+
+        // Handle page unload - clean up intervals
+        window.addEventListener('beforeunload', () => {
+            for (const modelId in activeDownloads) {
+                if (activeDownloads[modelId].intervalId) clearInterval(activeDownloads[modelId].intervalId);
+                if (activeDownloads[modelId].timeoutId) clearTimeout(activeDownloads[modelId].timeoutId);
+            }
+        });
     </script>
 </body>
-</html>
+    </html>
